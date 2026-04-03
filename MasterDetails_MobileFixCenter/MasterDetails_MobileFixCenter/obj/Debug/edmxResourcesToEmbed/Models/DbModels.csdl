@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MobileServicingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DeviceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Problem" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="DevicePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsRegular" Type="Boolean" />
+    <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ServiceEntries" Relationship="Self.FK__ServiceEn__Custo__5441852A" FromRole="Customers" ToRole="ServiceEntries" />
+  </EntityType>
+  <EntityType Name="ServiceEntry">
+    <Key>
+      <PropertyRef Name="ServiceEntryId" />
+    </Key>
+    <Property Name="ServiceEntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <Property Name="ServiceId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK__ServiceEn__Custo__5441852A" FromRole="ServiceEntries" ToRole="Customers" />
+    <NavigationProperty Name="Service" Relationship="Self.FK__ServiceEn__Servi__5535A963" FromRole="ServiceEntries" ToRole="Services" />
+  </EntityType>
+  <EntityType Name="Service">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+    </Key>
+    <Property Name="ServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="ServiceEntries" Relationship="Self.FK__ServiceEn__Servi__5535A963" FromRole="Services" ToRole="ServiceEntries" />
+  </EntityType>
+  <Association Name="FK__ServiceEn__Custo__5441852A">
+    <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+    <End Role="ServiceEntries" Type="Self.ServiceEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="ServiceEntries">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ServiceEn__Servi__5535A963">
+    <End Role="Services" Type="Self.Service" Multiplicity="1" />
+    <End Role="ServiceEntries" Type="Self.ServiceEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="ServiceId" />
+      </Principal>
+      <Dependent Role="ServiceEntries">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MobileServicingDBContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="ServiceEntries" EntityType="Self.ServiceEntry" />
+    <EntitySet Name="Services" EntityType="Self.Service" />
+    <AssociationSet Name="FK__ServiceEn__Custo__5441852A" Association="Self.FK__ServiceEn__Custo__5441852A">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="ServiceEntries" EntitySet="ServiceEntries" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ServiceEn__Servi__5535A963" Association="Self.FK__ServiceEn__Servi__5535A963">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="ServiceEntries" EntitySet="ServiceEntries" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

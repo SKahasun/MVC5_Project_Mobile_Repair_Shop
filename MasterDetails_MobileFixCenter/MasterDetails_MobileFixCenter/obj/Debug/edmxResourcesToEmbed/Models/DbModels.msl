@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MobileServicingDBModelStoreContainer" CdmEntityContainer="MobileServicingDBContext">
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="MobileServicingDBModel.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="Problem" ColumnName="Problem" />
+          <ScalarProperty Name="DevicePicture" ColumnName="DevicePicture" />
+          <ScalarProperty Name="IsRegular" ColumnName="IsRegular" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServiceEntries">
+      <EntityTypeMapping TypeName="MobileServicingDBModel.ServiceEntry">
+        <MappingFragment StoreEntitySet="ServiceEntries">
+          <ScalarProperty Name="ServiceEntryId" ColumnName="ServiceEntryId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Services">
+      <EntityTypeMapping TypeName="MobileServicingDBModel.Service">
+        <MappingFragment StoreEntitySet="Services">
+          <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

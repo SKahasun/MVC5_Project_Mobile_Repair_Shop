@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MobileServicingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="EntryDate" Type="date" Nullable="false" />
+    <Property Name="DeviceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Problem" Type="nvarchar" MaxLength="500" />
+    <Property Name="DevicePicture" Type="nvarchar(max)" />
+    <Property Name="IsRegular" Type="bit" />
+    <Property Name="Address" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="ServiceEntries">
+    <Key>
+      <PropertyRef Name="ServiceEntryId" />
+    </Key>
+    <Property Name="ServiceEntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="ServiceId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Services">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+    </Key>
+    <Property Name="ServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServiceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__ServiceEn__Custo__5441852A">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+    <End Role="ServiceEntries" Type="Self.ServiceEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="ServiceEntries">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ServiceEn__Servi__5535A963">
+    <End Role="Services" Type="Self.Services" Multiplicity="1" />
+    <End Role="ServiceEntries" Type="Self.ServiceEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="ServiceId" />
+      </Principal>
+      <Dependent Role="ServiceEntries">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MobileServicingDBModelStoreContainer">
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ServiceEntries" EntityType="Self.ServiceEntries" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__ServiceEn__Custo__5441852A" Association="Self.FK__ServiceEn__Custo__5441852A">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="ServiceEntries" EntitySet="ServiceEntries" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ServiceEn__Servi__5535A963" Association="Self.FK__ServiceEn__Servi__5535A963">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="ServiceEntries" EntitySet="ServiceEntries" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
