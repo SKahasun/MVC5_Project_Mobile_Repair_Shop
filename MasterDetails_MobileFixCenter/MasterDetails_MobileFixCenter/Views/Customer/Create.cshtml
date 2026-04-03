@@ -1,0 +1,552 @@
+﻿@model MasterDetails_MobileFixCenter.Models.ViewModels.CustomerVM
+@{
+    ViewBag.Title = "Add New Customer";
+}
+
+<style>
+    /* ── Hero ── */
+    .page-hero {
+        background: linear-gradient(135deg, #0f2057 0%, #1a3284 55%, #2348b0 100%);
+        border-radius: 16px;
+        padding: 28px 36px;
+        margin-bottom: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+    .ph-left {
+        position: relative;
+        z-index: 1;
+    }
+
+    .ph-eyebrow {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .ph-eyebrow::before {
+            content: '';
+            width: 18px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+    .ph-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 26px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.02em;
+        margin: 0 0 4px;
+    }
+
+        .ph-title span {
+            color: #7eb5ff;
+        }
+
+    .ph-sub {
+        font-size: 13px;
+        color: rgba(255,255,255,0.5);
+        margin: 0;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.22);
+        color: #fff !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 9px 18px;
+        border-radius: 9px;
+        text-decoration: none !important;
+        transition: background 0.2s;
+        white-space: nowrap;
+        position: relative;
+        z-index: 1;
+    }
+
+        .btn-back:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff !important;
+        }
+
+    /* ── Two-col grid ── */
+    .create-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: start;
+    }
+
+    /* ── Form Card ── */
+    .form-card {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        padding: 16px 24px;
+        border-bottom: 1.5px solid rgba(26,50,132,0.08);
+        background: #f8faff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .fch-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+        .fch-icon.blue {
+            background: #eff4ff;
+            color: #1a3284;
+            border: 1px solid rgba(26,50,132,0.14);
+        }
+
+        .fch-icon.green {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid rgba(22,163,74,0.18);
+        }
+
+    .fch-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: #0f2057;
+        margin: 0;
+    }
+
+    .fch-badge {
+        margin-left: auto;
+        background: #eff4ff;
+        color: #1a3284;
+        font-family: 'Courier New', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        border: 1px solid rgba(26,50,132,0.14);
+    }
+
+    .form-body {
+        padding: 24px;
+    }
+
+    /* ── Field styles ── */
+    .field-row {
+        margin-bottom: 18px;
+    }
+
+    .field-label {
+        display: block;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: #0f2057;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+    }
+
+    .field-input {
+        width: 100%;
+        background: #f8faff !important;
+        border: 1.5px solid rgba(26,50,132,0.14) !important;
+        border-radius: 9px !important;
+        color: #0d1a3a !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        padding: 10px 14px !important;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+    }
+
+        .field-input:focus {
+            border-color: #1a3284 !important;
+            box-shadow: 0 0 0 3px rgba(26,50,132,0.10) !important;
+            background: #fff !important;
+        }
+
+    .field-hint {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .field-hint i {
+            font-size: 10px;
+        }
+
+    .text-danger {
+        color: #dc2626 !important;
+        font-size: 11px;
+        margin-top: 4px;
+        display: block;
+    }
+
+    /* File upload zone */
+    .file-upload-zone {
+        border: 2px dashed rgba(26,50,132,0.2);
+        border-radius: 10px;
+        background: #f8faff;
+        padding: 16px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .file-upload-zone:hover {
+            border-color: #1a3284;
+            background: #eff4ff;
+        }
+
+        .file-upload-zone input[type=file] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+        }
+
+    .fuz-icon {
+        font-size: 24px;
+        color: #1a3284;
+        margin-bottom: 6px;
+    }
+
+    .fuz-text {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1a3284;
+    }
+
+    .fuz-hint {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 3px;
+    }
+
+    /* Checkbox toggle */
+    .check-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f8faff;
+        border: 1.5px solid rgba(26,50,132,0.1);
+        border-radius: 10px;
+        padding: 12px 16px;
+    }
+
+        .check-row input[type=checkbox] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1a3284;
+            cursor: pointer;
+        }
+
+    .check-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #0f2057;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .check-sub {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 1px;
+    }
+
+    /* Form footer */
+    .form-footer {
+        padding: 18px 24px;
+        border-top: 1.5px solid rgba(26,50,132,0.08);
+        background: #f8faff;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .btn-save {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #1a3284, #2348b0);
+        color: #fff !important;
+        font-family: 'Syne', sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        padding: 11px 26px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+        box-shadow: 0 3px 12px rgba(26,50,132,0.28);
+    }
+
+        .btn-save:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(26,50,132,0.38);
+        }
+
+    .btn-cancel {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: #f4f7fd;
+        border: 1.5px solid rgba(26,50,132,0.12);
+        color: #5a6a8a !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 11px 20px;
+        border-radius: 10px;
+        text-decoration: none !important;
+        transition: background 0.15s;
+    }
+
+        .btn-cancel:hover {
+            background: #e8edf8;
+            color: #0f2057 !important;
+        }
+
+    /* ── Service panel ── */
+    .service-card {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .btn-add-service {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: linear-gradient(135deg, #1a3284, #2348b0);
+        color: #fff !important;
+        font-family: 'Syne', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 7px 16px;
+        border-radius: 8px;
+        text-decoration: none !important;
+        border: none;
+        cursor: pointer;
+        transition: filter 0.15s;
+        box-shadow: 0 2px 8px rgba(26,50,132,0.25);
+        margin-left: auto;
+    }
+
+        .btn-add-service:hover {
+            filter: brightness(1.1);
+            color: #fff !important;
+        }
+
+    .service-container-wrap {
+        padding: 16px 20px;
+    }
+
+    .service-empty {
+        text-align: center;
+        padding: 32px 16px;
+        font-size: 13px;
+        color: #9ca3af;
+    }
+
+        .service-empty i {
+            font-size: 28px;
+            color: #dbeafe;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+    /* ── Msg / response area ── */
+    #msg {
+        margin-top: 4px;
+    }
+
+    @@media (max-width: 860px) {
+        .create-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+@* ── Hero ── *@
+<div class="page-hero">
+    <div class="ph-left">
+        <div class="ph-eyebrow">Customer Management</div>
+        <h1 class="ph-title">Add New <span>Customer</span></h1>
+        <p class="ph-sub">Fill in the details below and assign repair services</p>
+    </div>
+    @Html.ActionLink("← Back to List", "Index", null, new { @class = "btn-back" })
+</div>
+
+@using (Ajax.BeginForm(new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "msg",
+    OnComplete = "clearAll"
+}))
+{
+    <div class="create-grid">
+
+        @* ── Left: Customer Info ── *@
+        <div class="form-card">
+            <div class="form-card-header">
+                <div class="fch-icon blue"><i class="fas fa-user"></i></div>
+                <h2 class="fch-title">Customer Information</h2>
+            </div>
+
+            <div class="form-body">
+
+                <div class="field-row">
+                    @Html.LabelFor(x => x.CustomerName, new { @class = "field-label" })
+                    @Html.TextBoxFor(x => x.CustomerName, new { @class = "field-input", placeholder = "Full name" })
+                    @Html.ValidationMessageFor(x => x.CustomerName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="field-row">
+                    @Html.LabelFor(x => x.Phone, new { @class = "field-label" })
+                    @Html.TextBoxFor(x => x.Phone, new { @class = "field-input", placeholder = "+880 1700-000000" })
+                    @Html.ValidationMessageFor(x => x.Phone, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="field-row">
+                    @Html.LabelFor(x => x.EntryDate, new { @class = "field-label" })
+                    @Html.TextBoxFor(x => x.EntryDate, new { @class = "field-input", Type = "date" })
+                    @Html.ValidationMessageFor(x => x.EntryDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="field-row">
+                    @Html.LabelFor(x => x.Address, new { @class = "field-label" })
+                    @Html.TextBoxFor(x => x.Address, new { @class = "field-input", placeholder = "Street, City" })
+                    @Html.ValidationMessageFor(x => x.Address, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="field-row">
+                    @Html.LabelFor(x => x.DeviceName, new { @class = "field-label" })
+                    @Html.TextBoxFor(x => x.DeviceName, new { @class = "field-input", placeholder = "e.g. Samsung Galaxy S23" })
+                    @Html.ValidationMessageFor(x => x.DeviceName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="field-row">
+                    @Html.LabelFor(x => x.Problem, new { @class = "field-label" })
+                    @Html.TextBoxFor(x => x.Problem, new { @class = "field-input", placeholder = "Describe the issue" })
+                    @Html.ValidationMessageFor(x => x.Problem, "", new { @class = "text-danger" })
+                </div>
+
+                @* ── File upload ── *@
+                <div class="field-row">
+                    @Html.LabelFor(x => x.DevicePictureFile, new { @class = "field-label" })
+                    <div class="file-upload-zone">
+                        @Html.TextBoxFor(x => x.DevicePictureFile, new { Type = "file", accept = ".jpg,.jpeg,.png,.webp" })
+                        <div class="fuz-icon"><i class="fas fa-camera"></i></div>
+                        <div class="fuz-text">Click to upload device photo</div>
+                        <div class="fuz-hint">JPG, PNG, WEBP · Max 5 MB</div>
+                    </div>
+                    @Html.ValidationMessageFor(x => x.DevicePictureFile, "", new { @class = "text-danger" })
+                </div>
+
+                @* ── IsRegular checkbox ── *@
+                <div class="field-row">
+                    <label class="field-label">Customer Type</label>
+                    <div class="check-row">
+                        @Html.CheckBoxFor(x => x.IsRegular, new { id = "IsRegular" })
+                        <label for="IsRegular" class="check-label">
+                            Mark as Regular Customer
+                            <div class="check-sub">Regular customers receive priority service</div>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-footer">
+                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn-cancel" })
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-save"></i> Save Customer
+                </button>
+            </div>
+        </div>
+
+        @* ── Right: Service List ── *@
+        <div class="service-card">
+            <div class="form-card-header">
+                <div class="fch-icon green"><i class="fas fa-tools"></i></div>
+                <h2 class="fch-title">Assigned Services</h2>
+                <a href="#" id="btnPlus" class="btn-add-service">
+                    <i class="fas fa-plus"></i> Add Service
+                </a>
+            </div>
+            <div class="service-container-wrap">
+                <div id="serviceContainer">
+                    @Html.Action("AddNewService", "Customer")
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @* ── AJAX response message ── *@
+    <div id="msg" class="mt-3"></div>
+}
+
+@section scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $('#form0').attr("enctype", "multipart/form-data");
+        function clearAll() {
+            $('#form0').trigger("reset");
+        }
+    </script>
+}

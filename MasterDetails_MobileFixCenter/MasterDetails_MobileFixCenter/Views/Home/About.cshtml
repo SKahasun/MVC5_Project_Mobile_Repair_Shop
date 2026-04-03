@@ -1,0 +1,570 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<style>
+    /* ── Hero ── */
+    .page-hero {
+        background: linear-gradient(135deg, #0f2057 0%, #1a3284 55%, #2348b0 100%);
+        border-radius: 16px;
+        padding: 48px 48px;
+        margin-bottom: 32px;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            right: -80px;
+            top: -80px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            left: -60px;
+            bottom: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            pointer-events: none;
+        }
+
+    .ph-eyebrow {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        position: relative;
+        z-index: 1;
+    }
+
+        .ph-eyebrow::before, .ph-eyebrow::after {
+            content: '';
+            width: 28px;
+            height: 2px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+    .ph-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 38px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.03em;
+        margin: 0 0 12px;
+        position: relative;
+        z-index: 1;
+    }
+
+        .ph-title span {
+            color: #7eb5ff;
+        }
+
+    .ph-sub {
+        font-size: 15px;
+        color: rgba(255,255,255,0.55);
+        max-width: 500px;
+        margin: 0 auto 24px;
+        line-height: 1.65;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-pills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-pill {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: rgba(255,255,255,0.85);
+        font-size: 12px;
+        font-weight: 500;
+        padding: 6px 16px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+        .hero-pill i {
+            color: #7eb5ff;
+            font-size: 11px;
+        }
+
+    /* ── Section label ── */
+    .section-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #1a3284;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .section-eyebrow::before {
+            content: '';
+            width: 18px;
+            height: 2px;
+            background: #1a3284;
+            border-radius: 2px;
+        }
+
+    .section-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 24px;
+        font-weight: 800;
+        color: #0f2057;
+        letter-spacing: -0.02em;
+        margin: 0 0 6px;
+    }
+
+        .section-title span {
+            color: #2348b0;
+        }
+
+    .section-sub {
+        font-size: 13px;
+        color: #5a6a8a;
+        margin: 0 0 28px;
+        line-height: 1.6;
+    }
+
+    /* ── Story section ── */
+    .story-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 32px;
+        align-items: center;
+    }
+
+    .story-text p {
+        font-size: 14px;
+        color: #374151;
+        line-height: 1.75;
+        margin-bottom: 14px;
+    }
+
+        .story-text p:last-child {
+            margin-bottom: 0;
+        }
+
+    .story-highlight {
+        font-family: 'Syne', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f2057;
+    }
+
+    .story-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .story-stat {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 14px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .story-stat-value {
+        font-family: 'Syne', sans-serif;
+        font-size: 32px;
+        font-weight: 800;
+        color: #0f2057;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+
+        .story-stat-value span {
+            color: #2348b0;
+        }
+
+    .story-stat-label {
+        font-size: 12px;
+        color: #5a6a8a;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ── Values grid ── */
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .value-card {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 14px;
+        padding: 24px 20px;
+        transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+        .value-card:hover {
+            box-shadow: 0 6px 28px rgba(15,32,87,0.10);
+            border-color: rgba(26,50,132,0.22);
+        }
+
+    .value-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        margin-bottom: 14px;
+    }
+
+        .value-icon.blue {
+            background: #eff4ff;
+            color: #1a3284;
+            border: 1px solid rgba(26,50,132,0.14);
+        }
+
+        .value-icon.green {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid rgba(22,163,74,0.18);
+        }
+
+        .value-icon.amber {
+            background: #fffbeb;
+            color: #d97706;
+            border: 1px solid rgba(217,119,6,0.18);
+        }
+
+    .value-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f2057;
+        margin-bottom: 8px;
+    }
+
+    .value-desc {
+        font-size: 13px;
+        color: #5a6a8a;
+        line-height: 1.65;
+    }
+
+    /* ── Team grid ── */
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .team-card {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 14px;
+        overflow: hidden;
+        text-align: center;
+        transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+        .team-card:hover {
+            box-shadow: 0 6px 28px rgba(15,32,87,0.10);
+            border-color: rgba(26,50,132,0.22);
+        }
+
+    .team-card-top {
+        background: linear-gradient(135deg, #eff4ff, #dbeafe);
+        padding: 28px 20px 20px;
+    }
+
+    .team-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1a3284, #2348b0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-family: 'Syne', sans-serif;
+        font-size: 22px;
+        font-weight: 800;
+        color: #fff;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 14px rgba(26,50,132,0.25);
+    }
+
+    .team-name {
+        font-family: 'Syne', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f2057;
+    }
+
+    .team-role {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #1a3284;
+        margin-top: 3px;
+    }
+
+    .team-card-body {
+        padding: 16px 20px;
+    }
+
+    .team-bio {
+        font-size: 12px;
+        color: #5a6a8a;
+        line-height: 1.65;
+    }
+
+    /* ── Warranty strip ── */
+    .warranty-strip {
+        background: linear-gradient(135deg, #0f2057 0%, #1a3284 55%, #2348b0 100%);
+        border-radius: 16px;
+        padding: 32px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+        margin-bottom: 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .warranty-strip::before {
+            content: '';
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+    .ws-left {
+        position: relative;
+        z-index: 1;
+    }
+
+    .ws-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 20px;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 6px;
+    }
+
+    .ws-sub {
+        font-size: 13px;
+        color: rgba(255,255,255,0.55);
+    }
+
+    .ws-badges {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+    }
+
+    .ws-badge {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: rgba(255,255,255,0.9);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 8px 18px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+        .ws-badge i {
+            color: #7eb5ff;
+            font-size: 12px;
+        }
+
+    @@media (max-width: 860px) {
+        .story-grid, .values-grid, .team-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .story-stats {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .ph-title {
+            font-size: 28px;
+        }
+    }
+</style>
+
+@* ── Hero ── *@
+<div class="page-hero">
+    <div class="ph-eyebrow">Our Story</div>
+    <h1 class="ph-title">About <span>PhixPro</span></h1>
+    <p class="ph-sub">Dhaka's most trusted mobile repair center — built on expertise, transparency, and a passion for getting your device back to perfect.</p>
+    <div class="hero-pills">
+        <span class="hero-pill"><i class="fas fa-map-marker-alt"></i> Based in Dhaka</span>
+        <span class="hero-pill"><i class="fas fa-calendar-alt"></i> Est. 2018</span>
+        <span class="hero-pill"><i class="fas fa-star"></i> 4.9★ Rated</span>
+        <span class="hero-pill"><i class="fas fa-shield-alt"></i> 90-Day Warranty</span>
+    </div>
+</div>
+
+@* ── Our Story ── *@
+<div class="story-grid">
+    <div class="story-text">
+        <div class="section-eyebrow">Who We Are</div>
+        <h2 class="section-title">Repairing <span>trust</span>, one device at a time</h2>
+        <p>PhixPro was founded in 2018 by a group of certified mobile technicians who believed Dhaka deserved a repair shop that combined technical excellence with honest, transparent service. No hidden fees, no guesswork — just reliable repairs done right.</p>
+        <p>From a small workshop in Tech Avenue, we've grown into a fully equipped service center handling everything from cracked screens to complex motherboard-level repairs across all major brands.</p>
+        <p class="story-highlight">Every repair comes with a 90-day warranty and a satisfaction guarantee — because we stand behind our work.</p>
+    </div>
+    <div class="story-stats">
+        <div class="story-stat">
+            <div class="story-stat-value">6<span>+</span></div>
+            <div class="story-stat-label">Years in business</div>
+        </div>
+        <div class="story-stat">
+            <div class="story-stat-value">12<span>k</span></div>
+            <div class="story-stat-label">Devices repaired</div>
+        </div>
+        <div class="story-stat">
+            <div class="story-stat-value">4.9<span>★</span></div>
+            <div class="story-stat-label">Customer rating</div>
+        </div>
+        <div class="story-stat">
+            <div class="story-stat-value">90<span>d</span></div>
+            <div class="story-stat-label">Repair warranty</div>
+        </div>
+    </div>
+</div>
+
+@* ── Values ── *@
+<div class="section-eyebrow" style="margin-bottom:6px;">What Drives Us</div>
+<h2 class="section-title">Our core <span>values</span></h2>
+<p class="section-sub">The principles we apply to every repair job, every day.</p>
+
+<div class="values-grid">
+    <div class="value-card">
+        <div class="value-icon blue"><i class="fas fa-certificate"></i></div>
+        <div class="value-title">Genuine Parts Only</div>
+        <p class="value-desc">We source authentic components for every repair. No knock-offs, no compromises — your device deserves the real thing.</p>
+    </div>
+    <div class="value-card">
+        <div class="value-icon green"><i class="fas fa-eye"></i></div>
+        <div class="value-title">Full Transparency</div>
+        <p class="value-desc">You'll always know the cost before we touch your device. No surprise fees, no upselling — just honest quotes upfront.</p>
+    </div>
+    <div class="value-card">
+        <div class="value-icon amber"><i class="fas fa-bolt"></i></div>
+        <div class="value-title">Same-Day Turnaround</div>
+        <p class="value-desc">Most repairs are completed the same day. We know you rely on your device, so we work fast without cutting corners.</p>
+    </div>
+    <div class="value-card">
+        <div class="value-icon blue"><i class="fas fa-user-shield"></i></div>
+        <div class="value-title">Data Privacy</div>
+        <p class="value-desc">Your data stays yours. We never access personal content during a repair, and all device passwords remain confidential.</p>
+    </div>
+    <div class="value-card">
+        <div class="value-icon green"><i class="fas fa-shield-alt"></i></div>
+        <div class="value-title">90-Day Warranty</div>
+        <p class="value-desc">Every repair is backed by a 90-day warranty. If the same issue returns, we fix it again — at no extra charge.</p>
+    </div>
+    <div class="value-card">
+        <div class="value-icon amber"><i class="fas fa-headset"></i></div>
+        <div class="value-title">After-Repair Support</div>
+        <p class="value-desc">Our team is available after your repair for questions or follow-ups. We don't disappear once the job is done.</p>
+    </div>
+</div>
+
+@* ── Team ── *@
+<div class="section-eyebrow" style="margin-bottom:6px;">The People Behind PhixPro</div>
+<h2 class="section-title">Meet the <span>team</span></h2>
+<p class="section-sub">Certified technicians who take pride in every job they complete.</p>
+
+<div class="team-grid">
+    <div class="team-card">
+        <div class="team-card-top">
+            <div class="team-avatar">RK</div>
+            <div class="team-name">Rafiq Karim</div>
+            <div class="team-role">Founder &amp; Lead Technician</div>
+        </div>
+        <div class="team-card-body">
+            <p class="team-bio">10+ years of mobile hardware experience. Certified by Samsung and Apple. Rafiq leads all complex board-level repairs and quality assurance.</p>
+        </div>
+    </div>
+    <div class="team-card">
+        <div class="team-card-top">
+            <div class="team-avatar">NA</div>
+            <div class="team-name">Nadia Akter</div>
+            <div class="team-role">Senior Repair Technician</div>
+        </div>
+        <div class="team-card-body">
+            <p class="team-bio">Specializes in screen replacements and water damage recovery. Known for fast, precise work with a near-perfect success rate.</p>
+        </div>
+    </div>
+    <div class="team-card">
+        <div class="team-card-top">
+            <div class="team-avatar">TH</div>
+            <div class="team-name">Tanvir Hossain</div>
+            <div class="team-role">Software &amp; Diagnostics</div>
+        </div>
+        <div class="team-card-body">
+            <p class="team-bio">Expert in software flashing, unlock services, and deep diagnostics. Tanvir handles all software-related issues across Android and iOS.</p>
+        </div>
+    </div>
+</div>
+
+@* ── Warranty strip ── *@
+<div class="warranty-strip">
+    <div class="ws-left">
+        <div class="ws-title">Ready to get your device fixed?</div>
+        <div class="ws-sub">Walk in any day Mon–Sat, 9 AM – 8 PM. Free diagnostics on all devices.</div>
+    </div>
+    <div class="ws-badges">
+        <span class="ws-badge"><i class="fas fa-tools"></i> Free Diagnostics</span>
+        <span class="ws-badge"><i class="fas fa-shield-alt"></i> 90-Day Warranty</span>
+        <span class="ws-badge"><i class="fas fa-certificate"></i> Certified Techs</span>
+    </div>
+</div>

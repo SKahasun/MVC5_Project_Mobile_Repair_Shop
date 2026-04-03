@@ -1,0 +1,757 @@
+﻿@model IEnumerable<MasterDetails_MobileFixCenter.Models.Customer>
+@using PagedList
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Customers";
+}
+
+<style>
+    /* ── Hero ── */
+    .page-hero {
+        background: linear-gradient(135deg, #0f2057 0%, #1a3284 55%, #2348b0 100%);
+        border-radius: 16px;
+        padding: 32px 36px;
+        margin-bottom: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            right: -60px;
+            top: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            right: 80px;
+            bottom: -80px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            pointer-events: none;
+        }
+
+    .hero-left {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-eyebrow {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+    .hero-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.02em;
+        margin: 0 0 5px;
+    }
+
+        .hero-title span {
+            color: #7eb5ff;
+        }
+
+    .hero-sub {
+        font-size: 13px;
+        color: rgba(255,255,255,0.5);
+        margin: 0;
+    }
+
+    .hero-right {
+        position: relative;
+        z-index: 1;
+    }
+
+    .btn-create {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #ffffff;
+        color: #0f2057 !important;
+        font-family: 'Syne', sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        padding: 11px 22px;
+        border-radius: 10px;
+        text-decoration: none !important;
+        transition: transform 0.15s, box-shadow 0.2s;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        white-space: nowrap;
+    }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.26);
+            color: #0f2057 !important;
+            text-decoration: none !important;
+        }
+
+    /* ── Stats ── */
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-bottom: 28px;
+    }
+
+    .stat-card {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 12px;
+        padding: 18px 20px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .stat-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 18px;
+    }
+
+        .stat-icon.blue {
+            background: #eff4ff;
+            color: #1a3284;
+        }
+
+        .stat-icon.green {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .stat-icon.amber {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+    .stat-value {
+        font-family: 'Syne', sans-serif;
+        font-size: 22px;
+        font-weight: 800;
+        color: #0f2057;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 12px;
+        color: #5a6a8a;
+        margin-top: 3px;
+    }
+
+    /* ── Customer Card ── */
+    .customer-card {
+        background: #ffffff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+        .customer-card:hover {
+            box-shadow: 0 8px 32px rgba(15,32,87,0.12);
+            border-color: rgba(26,50,132,0.22);
+        }
+
+    /* Card top strip */
+    .customer-card-top {
+        padding: 20px 24px;
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        border-bottom: 1.5px solid rgba(26,50,132,0.07);
+        flex-wrap: wrap;
+    }
+
+    /* ── BIG device photo ── */
+    .device-photo-wrap {
+        flex-shrink: 0;
+        position: relative;
+    }
+
+    .device-photo {
+        width: 110px;
+        height: 110px;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 2px solid rgba(26,50,132,0.12);
+        display: block;
+        background: #f4f7fd;
+    }
+
+    .device-photo-placeholder {
+        width: 110px;
+        height: 110px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #eff4ff, #dbeafe);
+        border: 2px solid rgba(26,50,132,0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1a3284;
+        font-size: 32px;
+    }
+
+    .regular-badge {
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1a3284;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 20px;
+        white-space: nowrap;
+        letter-spacing: 0.04em;
+        border: 2px solid #fff;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+        .customer-id-badge,
+        .regular-badge,
+        .regular-badge.new-badge,
+        .service-pill,
+        .stat-label {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+            .regular-badge.new-badge {
+                background: #d97706;
+            }
+
+    /* Customer info grid */
+    .customer-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .customer-name-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    .customer-name {
+        font-family: 'Syne', sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        color: #0f2057;
+        letter-spacing: -0.01em;
+    }
+
+    .customer-id-badge {
+        background: #eff4ff;
+        color: #1a3284;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        border: 1px solid rgba(26,50,132,0.14);
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 10px 20px;
+    }
+
+    .info-item {
+    }
+
+    .info-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 2px;
+    }
+
+    .info-value {
+        font-size: 13px;
+        font-weight: 600;
+        color: #0d1a3a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+        .info-value.phone {
+            color: #1a3284;
+        }
+
+        .info-value.problem {
+            color: #d97706;
+        }
+
+    /* Actions */
+    .customer-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none !important;
+        transition: background 0.15s, transform 0.12s;
+        white-space: nowrap;
+        font-family: 'DM Sans', sans-serif;
+        min-width: 80px;
+        justify-content: center;
+    }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+            text-decoration: none !important;
+        }
+
+    .btn-edit {
+        background: #eff4ff;
+        color: #1a3284 !important;
+        border: 1px solid rgba(26,50,132,0.15);
+    }
+
+        .btn-edit:hover {
+            background: #dbeafe;
+            color: #0f2057 !important;
+        }
+
+    .btn-delete {
+        background: #fff1f1;
+        color: #dc2626 !important;
+        border: 1px solid rgba(220,38,38,0.18);
+    }
+
+        .btn-delete:hover {
+            background: #fee2e2;
+            color: #991b1b !important;
+        }
+
+    /* ── Services sub-table ── */
+    .customer-card-body {
+        padding: 0 24px 20px;
+    }
+
+    .services-section-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #5a6a8a;
+        margin: 16px 0 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .services-section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(26,50,132,0.08);
+        }
+
+    .services-mini-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .services-mini-table thead th {
+            padding: 9px 14px;
+            font-family: 'Syne', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #5a6a8a;
+            background: #f4f7fd;
+            border-bottom: 1.5px solid rgba(26,50,132,0.08);
+        }
+
+        .services-mini-table tbody tr {
+            border-bottom: 1px solid rgba(26,50,132,0.05);
+            transition: background 0.12s;
+        }
+
+            .services-mini-table tbody tr:last-child {
+                border-bottom: none;
+            }
+
+            .services-mini-table tbody tr:hover {
+                background: #f8faff;
+            }
+
+        .services-mini-table tbody td {
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #0d1a3a;
+            vertical-align: middle;
+        }
+
+    .service-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #eff4ff;
+        border: 1px solid rgba(26,50,132,0.14);
+        color: #1a3284;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 3px 12px;
+        border-radius: 20px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+        .service-pill i {
+            font-size: 10px;
+        }
+
+    .no-services {
+        text-align: center;
+        padding: 18px;
+        font-size: 13px;
+        color: #9ca3af;
+    }
+
+    /* ── Pagination ── */
+    .pagination-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 4px 0;
+    }
+
+    .pagination-info {
+        font-size: 13px;
+        color: #5a6a8a;
+    }
+
+    .pagination-wrap .pagination {
+        margin: 0;
+        display: flex;
+        gap: 4px;
+    }
+
+        .pagination-wrap .pagination li a,
+        .pagination-wrap .pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 34px;
+            height: 34px;
+            padding: 0 10px;
+            background: #fff;
+            border: 1.5px solid rgba(26,50,132,0.12);
+            border-radius: 8px !important;
+            font-size: 13px;
+            font-weight: 600;
+            color: #5a6a8a;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+            .pagination-wrap .pagination li a:hover {
+                background: #eff4ff;
+                border-color: rgba(26,50,132,0.25);
+                color: #1a3284;
+            }
+
+        .pagination-wrap .pagination li.active span,
+        .pagination-wrap .pagination li.active a {
+            background: linear-gradient(135deg, #1a3284, #2348b0);
+            border-color: #1a3284;
+            color: #fff !important;
+        }
+
+        .pagination-wrap .pagination li.disabled span {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+    /* ── Empty state ── */
+    .empty-state {
+        text-align: center;
+        padding: 60px 24px;
+    }
+
+    .empty-icon {
+        width: 64px;
+        height: 64px;
+        background: #eff4ff;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        color: #1a3284;
+        margin: 0 auto 16px;
+    }
+
+    .empty-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #0f2057;
+        margin-bottom: 6px;
+    }
+
+    .empty-sub {
+        font-size: 13px;
+        color: #5a6a8a;
+    }
+
+    @@media (max-width: 680px) {
+        .stats-row {
+            grid-template-columns: 1fr;
+        }
+
+        .customer-card-top {
+            flex-direction: column;
+        }
+
+        .customer-actions {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+
+        .device-photo, .device-photo-placeholder {
+            width: 80px;
+            height: 80px;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+</style>
+
+@* ── Page Hero ── *@
+<div class="page-hero">
+    <div class="hero-left">
+        <div class="hero-eyebrow">PhixPro Management</div>
+        <h1 class="hero-title">Customer <span>Records</span></h1>
+        <p class="hero-sub">Track devices, repairs and service history for every customer</p>
+    </div>
+    <div class="hero-right">
+        <a class="btn-create" href="@Url.Action("Create","Customer")">
+            <i class="fas fa-plus"></i> Add New Customer
+        </a>
+    </div>
+</div>
+
+@* ── Stats ── *@
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+        <div>
+            <div class="stat-value">@Model.Count()</div>
+            <div class="stat-label">Customers on page</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-star"></i></div>
+        <div>
+            <div class="stat-value">@Model.Count(x => x.IsRegular)</div>
+            <div class="stat-label">Regular customers</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon amber"><i class="fas fa-tools"></i></div>
+        <div>
+            <div class="stat-value">@Model.Sum(x => x.ServiceEntries.Count)</div>
+            <div class="stat-label">Total service entries</div>
+        </div>
+    </div>
+</div>
+
+@* ── Customer Cards ── *@
+@if (!Model.Any())
+{
+    <div class="empty-state">
+        <div class="empty-icon"><i class="fas fa-users"></i></div>
+        <div class="empty-title">No customers yet</div>
+        <p class="empty-sub">Click "Add New Customer" to register your first repair job.</p>
+    </div>
+}
+else
+{
+    foreach (var customer in Model)
+    {
+        <div class="customer-card">
+            <div class="customer-card-top">
+
+                @* ── Device Photo (BIG) ── *@
+                <div class="device-photo-wrap">
+                    @if (!string.IsNullOrEmpty(customer.DevicePicture))
+                    {
+                        <img src="@customer.DevicePicture" class="device-photo" alt="Device photo" />
+                    }
+                    else
+                    {
+                        <div class="device-photo-placeholder">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    }
+                    @if (customer.IsRegular)
+                    {
+                        <span class="regular-badge">⭐ Regular</span>
+                    }
+                    else
+                    {
+                        <span class="regular-badge new-badge">New</span>
+                    }
+                </div>
+
+                @* ── Customer Info ── *@
+                <div class="customer-info">
+                    <div class="customer-name-row">
+                        <span class="customer-name">@Html.DisplayFor(x => customer.CustomerName)</span>
+                        <span class="customer-id-badge">ID #@customer.CustomerId</span>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Phone</div>
+                            <div class="info-value phone">
+                                <i class="fas fa-phone" style="font-size:10px;margin-right:4px;"></i>
+                                @Html.DisplayFor(x => customer.Phone)
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Device</div>
+                            <div class="info-value">
+                                <i class="fas fa-mobile-alt" style="font-size:10px;margin-right:4px;color:#5a6a8a;"></i>
+                                @Html.DisplayFor(x => customer.DeviceName)
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Problem</div>
+                            <div class="info-value problem">@Html.DisplayFor(x => customer.Problem)</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Entry Date</div>
+                            <div class="info-value">@Html.DisplayFor(x => customer.EntryDate)</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Address</div>
+                            <div class="info-value">@Html.DisplayFor(x => customer.Address)</div>
+                        </div>
+                    </div>
+                </div>
+
+                @* ── Actions ── *@
+                <div class="customer-actions">
+                    <a class="btn-action btn-edit" href="@Url.Action("Edit","Customer", new { id = customer.CustomerId })">
+                        <i class="fas fa-pen"></i> Edit
+                    </a>
+                    <a class="btn-action btn-delete" href="@Url.Action("Delete","Customer", new { id = customer.CustomerId })">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </a>
+                </div>
+
+            </div>
+
+            @* ── Service Entries sub-table ── *@
+            <div class="customer-card-body">
+                <div class="services-section-label">
+                    <i class="fas fa-wrench" style="color:#1a3284;font-size:11px;"></i>
+                    Service Entries (@customer.ServiceEntries.Count)
+                </div>
+                @if (customer.ServiceEntries.Any())
+                {
+                    <table class="services-mini-table">
+                        <thead>
+                            <tr>
+                                <th style="width:80px">ID</th>
+                                <th>Service Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var entry in customer.ServiceEntries)
+                            {
+                                <tr>
+                                    <td style="color:#9ca3af;font-size:12px;">#@Html.DisplayFor(x => entry.Service.ServiceId)</td>
+                                    <td>
+                                        <span class="service-pill">
+                                            <i class="fas fa-wrench"></i>
+                                            @Html.DisplayFor(x => entry.Service.ServiceName)
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="no-services">
+                        <i class="fas fa-inbox" style="margin-right:6px;color:#d1d5db;"></i>
+                        No service entries yet
+                    </div>
+                }
+            </div>
+        </div>
+    }
+}
+
+@* ── Pagination ── *@
+<div class="pagination-wrap">
+    <span class="pagination-info">Showing @Model.Count() customer(s)</span>
+    <div>
+        @Html.PagedListPager(Model as IPagedList, Page => Url.Action("Index", new { id = Page }))
+    </div>
+</div>

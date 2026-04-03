@@ -1,0 +1,30 @@
+﻿@model MasterDetails_MobileFixCenter.Models.Service
+<div class="row mb-2">
+    <div class="col-10">
+        @Html.DropDownListFor(x => x.ServiceId, (SelectList)ViewBag.service, "—--- Select a service ---—", new { @class = "service-select" })
+    </div>
+    <div class="col-2">
+        <a href="#" id="btnDelete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+    </div>
+</div>
+<style>
+    .service-select {
+        width: 100%;
+        background: #f8faff !important;
+        border: 1.5px solid rgba(26,50,132,0.13) !important;
+        border-radius: 9px !important;
+        color: #0d1a3a !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        padding: 9px 14px !important;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        appearance: auto;
+    }
+
+        .service-select:focus {
+            border-color: #1a3284 !important;
+            box-shadow: 0 0 0 3px rgba(26,50,132,0.10) !important;
+            background: #fff !important;
+        }
+</style>

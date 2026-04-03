@@ -1,0 +1,1061 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    /* ── HERO ── */
+    .hero {
+        background: linear-gradient(135deg, #0f2057 0%, #1a3284 55%, #2348b0 100%);
+        border-radius: 20px;
+        padding: 72px 56px;
+        margin-bottom: 32px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            right: -100px;
+            top: -100px;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            left: 40%;
+            bottom: -80px;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            pointer-events: none;
+        }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 560px;
+    }
+
+    .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #a8d4ff;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 5px 14px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse-dot 1.5s infinite;
+        }
+
+    @@keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50%       { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    .hero-title {
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(32px, 4.5vw, 52px);
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.06;
+        letter-spacing: -0.03em;
+        margin: 0 0 18px;
+    }
+
+        .hero-title .accent { color: #7eb5ff; }
+        .hero-title .accent-gold { color: #ffd166; }
+
+    .hero-sub {
+        font-size: 15px;
+        color: rgba(255,255,255,0.62);
+        line-height: 1.7;
+        margin: 0 0 32px;
+        max-width: 460px;
+    }
+
+    .hero-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .btn-hero-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #fff;
+        color: #0f2057 !important;
+        font-family: 'Syne', sans-serif;
+        font-size: 14px;
+        font-weight: 800;
+        padding: 13px 28px;
+        border-radius: 11px;
+        text-decoration: none !important;
+        transition: transform 0.15s, box-shadow 0.2s;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        white-space: nowrap;
+    }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+            color: #0f2057 !important;
+        }
+
+    .btn-hero-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.25);
+        color: #fff !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 13px 24px;
+        border-radius: 11px;
+        text-decoration: none !important;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
+
+        .btn-hero-ghost:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff !important;
+        }
+
+    /* Hero right — device card */
+    .hero-card {
+        position: relative;
+        z-index: 1;
+        background: rgba(255,255,255,0.10);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 18px;
+        padding: 24px 28px;
+        min-width: 240px;
+        backdrop-filter: blur(2px);
+        flex-shrink: 0;
+    }
+
+    .hero-card-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.5);
+        margin-bottom: 14px;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .hero-card-stat {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+        .hero-card-stat:last-child { margin-bottom: 0; }
+
+    .hcs-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        background: rgba(255,255,255,0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #7eb5ff;
+        flex-shrink: 0;
+    }
+
+    .hcs-value {
+        font-family: 'Syne', sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1;
+    }
+
+    .hcs-label {
+        font-size: 11px;
+        color: rgba(255,255,255,0.5);
+        margin-top: 2px;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-bottom: 32px;
+    }
+
+    .stat-card {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 14px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+        .stat-card:hover {
+            box-shadow: 0 6px 24px rgba(15,32,87,0.10);
+            border-color: rgba(26,50,132,0.22);
+        }
+
+    .stat-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        flex-shrink: 0;
+    }
+
+        .stat-icon.blue  { background: #eff4ff; color: #1a3284; border: 1px solid rgba(26,50,132,0.14); }
+        .stat-icon.green { background: #f0fdf4; color: #16a34a; border: 1px solid rgba(22,163,74,0.18); }
+        .stat-icon.amber { background: #fffbeb; color: #d97706; border: 1px solid rgba(217,119,6,0.18); }
+        .stat-icon.red   { background: #fff1f1; color: #dc2626; border: 1px solid rgba(220,38,38,0.18); }
+
+    .stat-value {
+        font-family: 'Syne', sans-serif;
+        font-size: 24px;
+        font-weight: 800;
+        color: #0f2057;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 12px;
+        color: #5a6a8a;
+        margin-top: 3px;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #1a3284;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .section-eyebrow::before {
+            content: '';
+            width: 18px;
+            height: 2px;
+            background: #1a3284;
+            border-radius: 2px;
+        }
+
+    .section-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 26px;
+        font-weight: 800;
+        color: #0f2057;
+        letter-spacing: -0.02em;
+        margin: 0 0 6px;
+    }
+
+        .section-title span { color: #2348b0; }
+
+    .section-sub {
+        font-size: 13px;
+        color: #5a6a8a;
+        margin: 0 0 26px;
+        line-height: 1.6;
+    }
+
+    /* ── SERVICES GRID ── */
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .service-card {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 16px;
+        padding: 24px 22px;
+        transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+        .service-card:hover {
+            box-shadow: 0 8px 32px rgba(15,32,87,0.12);
+            border-color: rgba(26,50,132,0.24);
+            transform: translateY(-2px);
+        }
+
+    .svc-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+
+        .svc-icon.blue  { background: #eff4ff; color: #1a3284; border: 1px solid rgba(26,50,132,0.14); }
+        .svc-icon.green { background: #f0fdf4; color: #16a34a; border: 1px solid rgba(22,163,74,0.18); }
+        .svc-icon.amber { background: #fffbeb; color: #d97706; border: 1px solid rgba(217,119,6,0.18); }
+        .svc-icon.red   { background: #fff1f1; color: #dc2626; border: 1px solid rgba(220,38,38,0.18); }
+        .svc-icon.purple{ background: #f5f3ff; color: #7c3aed; border: 1px solid rgba(124,58,237,0.16); }
+        .svc-icon.teal  { background: #f0fdfa; color: #0d9488; border: 1px solid rgba(13,148,136,0.18); }
+
+    .svc-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f2057;
+        margin-bottom: 8px;
+    }
+
+    .svc-desc {
+        font-size: 13px;
+        color: #5a6a8a;
+        line-height: 1.65;
+        margin-bottom: 14px;
+    }
+
+    .svc-time {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #f4f7fd;
+        color: #1a3284;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-family: 'Courier New', monospace;
+        border: 1px solid rgba(26,50,132,0.12);
+    }
+
+        .svc-time i { font-size: 10px; }
+
+    /* ── HOW IT WORKS ── */
+    .hiw-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        margin-bottom: 32px;
+        position: relative;
+    }
+
+        .hiw-grid::before {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: calc(12.5% + 20px);
+            right: calc(12.5% + 20px);
+            height: 2px;
+            background: linear-gradient(to right, rgba(26,50,132,0.15), rgba(26,50,132,0.15));
+            z-index: 0;
+        }
+
+    .hiw-step {
+        text-align: center;
+        padding: 0 12px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hiw-number {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1a3284, #2348b0);
+        color: #fff;
+        font-family: 'Syne', sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        box-shadow: 0 4px 16px rgba(26,50,132,0.28);
+        border: 3px solid #f0f4fb;
+    }
+
+    .hiw-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: #0f2057;
+        margin-bottom: 8px;
+    }
+
+    .hiw-desc {
+        font-size: 12px;
+        color: #5a6a8a;
+        line-height: 1.65;
+    }
+
+    /* ── WHY US ── */
+    .whyus-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 24px;
+        margin-bottom: 32px;
+        align-items: center;
+    }
+
+    .whyus-list { }
+
+    .whyus-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(26,50,132,0.07);
+    }
+
+        .whyus-item:last-child { border-bottom: none; }
+
+    .wi-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
+
+        .wi-icon.blue  { background: #eff4ff; color: #1a3284; border: 1px solid rgba(26,50,132,0.14); }
+        .wi-icon.green { background: #f0fdf4; color: #16a34a; border: 1px solid rgba(22,163,74,0.18); }
+        .wi-icon.amber { background: #fffbeb; color: #d97706; border: 1px solid rgba(217,119,6,0.18); }
+
+    .wi-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: #0f2057;
+        margin-bottom: 3px;
+    }
+
+    .wi-desc {
+        font-size: 13px;
+        color: #5a6a8a;
+        line-height: 1.6;
+    }
+
+    /* Brands card */
+    .brands-card {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 16px;
+        padding: 28px 24px;
+    }
+
+    .brands-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 18px;
+        text-align: center;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .brands-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .brand-pill {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        background: #f4f7fd;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 10px;
+        padding: 10px 8px;
+        font-family: 'Syne', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: #0f2057;
+        transition: border-color 0.15s, background 0.15s;
+    }
+
+        .brand-pill:hover {
+            border-color: rgba(26,50,132,0.25);
+            background: #eff4ff;
+        }
+
+        .brand-pill i {
+            font-size: 16px;
+            color: #1a3284;
+        }
+
+    /* ── CTA STRIP ── */
+    .cta-strip {
+        background: linear-gradient(135deg, #0f2057 0%, #1a3284 55%, #2348b0 100%);
+        border-radius: 18px;
+        padding: 44px 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px;
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 0;
+    }
+
+        .cta-strip::before {
+            content: '';
+            position: absolute;
+            right: -60px;
+            top: -60px;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .cta-strip::after {
+            content: '';
+            position: absolute;
+            left: 35%;
+            bottom: -70px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            pointer-events: none;
+        }
+
+    .cta-left { position: relative; z-index: 1; }
+
+    .cta-eyebrow {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 8px;
+        font-family: 'DM Sans', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .cta-eyebrow::before {
+            content: '';
+            width: 18px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+        }
+
+    .cta-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 26px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.02em;
+        margin: 0 0 8px;
+    }
+
+        .cta-title span { color: #7eb5ff; }
+
+    .cta-sub {
+        font-size: 13px;
+        color: rgba(255,255,255,0.55);
+    }
+
+    .cta-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+    }
+
+    .btn-cta-white {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #fff;
+        color: #0f2057 !important;
+        font-family: 'Syne', sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        padding: 12px 26px;
+        border-radius: 10px;
+        text-decoration: none !important;
+        transition: transform 0.15s, box-shadow 0.2s;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        white-space: nowrap;
+    }
+
+        .btn-cta-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.26);
+            color: #0f2057 !important;
+        }
+
+    .btn-cta-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.25);
+        color: #fff !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 12px 22px;
+        border-radius: 10px;
+        text-decoration: none !important;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
+
+        .btn-cta-ghost:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff !important;
+        }
+
+    @@media (max-width: 960px) {
+        .services-grid { grid-template-columns: repeat(2, 1fr); }
+        .hiw-grid      { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .hiw-grid::before { display: none; }
+        .stats-bar     { grid-template-columns: repeat(2, 1fr); }
+        .whyus-grid    { grid-template-columns: 1fr; }
+    }
+
+    @@media (max-width: 620px) {
+        .hero          { padding: 40px 28px; }
+        .services-grid { grid-template-columns: 1fr; }
+        .stats-bar     { grid-template-columns: 1fr 1fr; }
+        .brands-grid   { grid-template-columns: repeat(2, 1fr); }
+        .cta-strip     { padding: 32px 28px; }
+    }
+</style>
+
+@* ── HERO ── *@
+<div class="hero">
+    <div class="hero-content">
+        <div class="hero-eyebrow">Open Now · Same-Day Repairs</div>
+        <h1 class="hero-title">
+            Dhaka's most<br>
+            trusted <span class="accent">mobile</span><br>
+            <span class="accent-gold">repair center</span>
+        </h1>
+        <p class="hero-sub">Expert technicians, genuine parts, and a 90-day warranty on every job. Free diagnostics — walk in, no appointment needed.</p>
+        <div class="hero-actions">
+            <a href="@Url.Action("Create", "Customer")" class="btn-hero-primary">
+                <i class="fas fa-plus"></i> Book a Repair
+            </a>
+            <a href="@Url.Action("Index", "Services")" class="btn-hero-ghost">
+                <i class="fas fa-tools"></i> View Services
+            </a>
+        </div>
+    </div>
+    <div class="hero-card">
+        <div class="hero-card-label">At a glance</div>
+        <div class="hero-card-stat">
+            <div class="hcs-icon"><i class="fas fa-tools"></i></div>
+            <div>
+                <div class="hcs-value">12k+</div>
+                <div class="hcs-label">Devices repaired</div>
+            </div>
+        </div>
+        <div class="hero-card-stat">
+            <div class="hcs-icon"><i class="fas fa-star"></i></div>
+            <div>
+                <div class="hcs-value">4.9★</div>
+                <div class="hcs-label">Customer rating</div>
+            </div>
+        </div>
+        <div class="hero-card-stat">
+            <div class="hcs-icon"><i class="fas fa-shield-alt"></i></div>
+            <div>
+                <div class="hcs-value">90 Days</div>
+                <div class="hcs-label">Repair warranty</div>
+            </div>
+        </div>
+        <div class="hero-card-stat">
+            <div class="hcs-icon"><i class="fas fa-bolt"></i></div>
+            <div>
+                <div class="hcs-value">Same Day</div>
+                <div class="hcs-label">Turnaround</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ── STATS BAR ── *@
+<div class="stats-bar">
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+        <div>
+            <div class="stat-value">8,400+</div>
+            <div class="stat-label">Happy customers</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-certificate"></i></div>
+        <div>
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Genuine parts</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon amber"><i class="fas fa-calendar-alt"></i></div>
+        <div>
+            <div class="stat-value">6+ Years</div>
+            <div class="stat-label">In business</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon red"><i class="fas fa-clock"></i></div>
+        <div>
+            <div class="stat-value">~2 Hrs</div>
+            <div class="stat-label">Avg. repair time</div>
+        </div>
+    </div>
+</div>
+
+@* ── SERVICES ── *@
+<div class="section-eyebrow">What We Fix</div>
+<h2 class="section-title">Our <span>repair services</span></h2>
+<p class="section-sub">We handle all major mobile hardware and software issues across all brands, with same-day turnaround on most jobs.</p>
+
+<div class="services-grid">
+    <div class="service-card">
+        <div class="svc-icon blue"><i class="fas fa-mobile-alt"></i></div>
+        <div class="svc-title">Screen Replacement</div>
+        <p class="svc-desc">Cracked or unresponsive display? We replace screens with OEM-quality panels for all major brands.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–2 hours</span>
+    </div>
+    <div class="service-card">
+        <div class="svc-icon green"><i class="fas fa-battery-three-quarters"></i></div>
+        <div class="svc-title">Battery Replacement</div>
+        <p class="svc-desc">Fast drain, random shutdowns, or swollen battery? We swap it out with a genuine cell and full calibration.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 30–60 mins</span>
+    </div>
+    <div class="service-card">
+        <div class="svc-icon teal"><i class="fas fa-tint"></i></div>
+        <div class="svc-title">Water Damage Recovery</div>
+        <p class="svc-desc">Dropped your phone in water? Our ultrasonic cleaning and board-level drying process saves most devices.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 2–4 hours</span>
+    </div>
+    <div class="service-card">
+        <div class="svc-icon amber"><i class="fas fa-plug"></i></div>
+        <div class="svc-title">Charging Port Repair</div>
+        <p class="svc-desc">Loose connection or not charging at all? We clean or replace the charging port to restore full power.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 45–90 mins</span>
+    </div>
+    <div class="service-card">
+        <div class="svc-icon purple"><i class="fas fa-laptop-code"></i></div>
+        <div class="svc-title">Software & Flashing</div>
+        <p class="svc-desc">Bootloops, corrupted firmware, factory resets, and OS upgrades handled by our software specialists.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–3 hours</span>
+    </div>
+    <div class="service-card">
+        <div class="svc-icon red"><i class="fas fa-camera"></i></div>
+        <div class="svc-title">Camera Repair</div>
+        <p class="svc-desc">Blurry shots, cracked lens, or a camera that won't open? We replace front and rear camera modules.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–2 hours</span>
+    </div>
+    <div class="service-card">
+        <div class="svc-icon blue"><i class="fas fa-volume-up"></i></div>
+        <div class="svc-title">Speaker & Earpiece Repair</div>
+        <p class="svc-desc">No sound, muffled audio, or a crackling speaker? We replace both earpiece and loudspeaker modules.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 45–90 mins</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon green"><i class="fas fa-microphone"></i></div>
+        <div class="svc-title">Microphone Repair</div>
+        <p class="svc-desc">Callers can't hear you or voice recording is silent? We diagnose and replace faulty mic components.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 45–75 mins</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon amber"><i class="fas fa-wifi"></i></div>
+        <div class="svc-title">Wi-Fi & Bluetooth Fix</div>
+        <p class="svc-desc">Weak signal, drops connection, or won't connect at all? We repair antenna and wireless IC issues.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–3 hours</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon purple"><i class="fas fa-signal"></i></div>
+        <div class="svc-title">Network & SIM Repair</div>
+        <p class="svc-desc">No service, SIM not detected, or stuck on 2G? We fix baseband and SIM tray issues across all models.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–2 hours</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon red"><i class="fas fa-fingerprint"></i></div>
+        <div class="svc-title">Fingerprint Sensor Repair</div>
+        <p class="svc-desc">Sensor not responding or registering touches incorrectly? We replace in-display and physical fingerprint modules.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–2 hours</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon teal"><i class="fas fa-power-off"></i></div>
+        <div class="svc-title">Power Button Repair</div>
+        <p class="svc-desc">Phone won't turn on or power button is stuck? We replace the button flex and restore full functionality.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 30–60 mins</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon blue"><i class="fas fa-volume-mute"></i></div>
+        <div class="svc-title">Volume Button Repair</div>
+        <p class="svc-desc">Stuck, unresponsive, or broken volume keys? We repair or replace the button flex cable on any model.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 30–60 mins</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon green"><i class="fas fa-th"></i></div>
+        <div class="svc-title">Back Panel Replacement</div>
+        <p class="svc-desc">Shattered glass back or cracked rear housing? We restore your device's look with a precision-fit replacement.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–2 hours</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon amber"><i class="fas fa-puzzle-piece"></i></div>
+        <div class="svc-title">Motherboard Repair</div>
+        <p class="svc-desc">Dead device, short circuit, or IC-level faults? Our board technicians handle micro-soldering and chip replacement.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–3 days</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon purple"><i class="fas fa-headphones"></i></div>
+        <div class="svc-title">Headphone Jack Repair</div>
+        <p class="svc-desc">Audio cutting out or jack not detecting headphones? We clean or replace the 3.5mm port on any device.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 30–60 mins</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon red"><i class="fas fa-lock-open"></i></div>
+        <div class="svc-title">Screen Lock Removal</div>
+        <p class="svc-desc">Forgot your PIN, pattern, or password? We safely remove screen locks while keeping your data intact where possible.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–2 hours</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon teal"><i class="fas fa-sim-card"></i></div>
+        <div class="svc-title">SIM & SD Card Tray Fix</div>
+        <p class="svc-desc">Bent, stuck, or missing tray? We replace SIM and microSD trays to restore full card functionality.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 20–40 mins</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon blue"><i class="fas fa-thermometer-half"></i></div>
+        <div class="svc-title">Overheating Fix</div>
+        <p class="svc-desc">Phone running hot under normal use? We diagnose thermal issues, clean cooling paths, and replace thermal pads.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–3 hours</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon green"><i class="fas fa-broadcast-tower"></i></div>
+        <div class="svc-title">Antenna Replacement</div>
+        <p class="svc-desc">Weak call signal or GPS not locking? We replace internal antenna flex cables to restore full connectivity.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–2 hours</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon amber"><i class="fas fa-compact-disc"></i></div>
+        <div class="svc-title">Vibration Motor Repair</div>
+        <p class="svc-desc">Haptic feedback not working or vibration is weak? We replace the vibration motor with a factory-spec unit.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 30–60 mins</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon purple"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="svc-title">GPS Repair</div>
+        <p class="svc-desc">Location not locking or jumping around on maps? We diagnose GPS antenna and module issues for accurate tracking.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–2 hours</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon red"><i class="fas fa-shield-virus"></i></div>
+        <div class="svc-title">Virus & Malware Removal</div>
+        <p class="svc-desc">Slow phone, pop-up ads, or suspicious apps? We scan, clean, and harden your device against future threats.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 1–2 hours</span>
+    </div>
+
+    <div class="service-card">
+        <div class="svc-icon teal"><i class="fas fa-database"></i></div>
+        <div class="svc-title">Data Recovery</div>
+        <p class="svc-desc">Accidentally deleted photos or contacts? We recover lost data from damaged, water-affected, or wiped devices.</p>
+        <span class="svc-time"><i class="fas fa-clock"></i> 2–24 hours</span>
+    </div>
+</div>
+
+@* ── HOW IT WORKS ── *@
+<div class="section-eyebrow">Simple Process</div>
+<h2 class="section-title">How it <span>works</span></h2>
+<p class="section-sub">Getting your device fixed at PhixPro takes four easy steps.</p>
+
+<div class="hiw-grid">
+    <div class="hiw-step">
+        <div class="hiw-number">1</div>
+        <div class="hiw-title">Walk In</div>
+        <p class="hiw-desc">No appointment needed. Bring your device to our 47 Tech Avenue location any day Mon–Sat.</p>
+    </div>
+    <div class="hiw-step">
+        <div class="hiw-number">2</div>
+        <div class="hiw-title">Free Diagnosis</div>
+        <p class="hiw-desc">Our technician runs a full diagnostic and gives you a transparent quote — before any work begins.</p>
+    </div>
+    <div class="hiw-step">
+        <div class="hiw-number">3</div>
+        <div class="hiw-title">Repair</div>
+        <p class="hiw-desc">We get to work using genuine parts. Most repairs are done the same day — often within hours.</p>
+    </div>
+    <div class="hiw-step">
+        <div class="hiw-number">4</div>
+        <div class="hiw-title">Pick Up</div>
+        <p class="hiw-desc">Collect your device, fully tested and backed by our 90-day warranty. Job done.</p>
+    </div>
+</div>
+
+@* ── WHY US ── *@
+<div class="whyus-grid">
+    <div class="whyus-list">
+        <div class="section-eyebrow">Why PhixPro</div>
+        <h2 class="section-title">The PhixPro <span>difference</span></h2>
+        <p class="section-sub">We've built our reputation on doing things right — every repair, every time.</p>
+
+        <div class="whyus-item">
+            <div class="wi-icon green"><i class="fas fa-certificate"></i></div>
+            <div>
+                <div class="wi-title">Genuine Parts Only</div>
+                <p class="wi-desc">We never use counterfeit components. Every part is sourced from certified suppliers for a lasting repair.</p>
+            </div>
+        </div>
+        <div class="whyus-item">
+            <div class="wi-icon blue"><i class="fas fa-eye"></i></div>
+            <div>
+                <div class="wi-title">Transparent Pricing</div>
+                <p class="wi-desc">You get a full quote before we touch your device. No hidden fees, no surprise charges at collection.</p>
+            </div>
+        </div>
+        <div class="whyus-item">
+            <div class="wi-icon amber"><i class="fas fa-shield-alt"></i></div>
+            <div>
+                <div class="wi-title">90-Day Warranty</div>
+                <p class="wi-desc">Every repair is covered for 90 days. If the same fault returns, we fix it again at zero cost to you.</p>
+            </div>
+        </div>
+        <div class="whyus-item">
+            <div class="wi-icon green"><i class="fas fa-user-shield"></i></div>
+            <div>
+                <div class="wi-title">Your Data Stays Private</div>
+                <p class="wi-desc">We never access your personal data during a repair. Your privacy is respected — always.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="brands-card">
+        <div class="brands-label">Brands we service</div>
+        <div class="brands-grid">
+            <div class="brand-pill"><i class="fab fa-apple"></i> Apple</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Samsung</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Xiaomi</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Oppo</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Vivo</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Realme</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> OnePlus</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Huawei</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Nokia</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Google</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Motorola</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Honor</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Tecno</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Infinix</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Itel</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Sony</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> LG</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Lenovo</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Asus</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> ZTE</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Poco</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Redmi</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> iQOO</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Nothing</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> CMF</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Meizu</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> HTC</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> BlackBerry</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Micromax</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Lava</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Walton</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Symphony</div>
+            <div class="brand-pill"><i class="fas fa-mobile-alt"></i> Singer</div>
+        </div>
+    </div>
+</div>
+
+@* ── CTA STRIP ── *@
+<div class="cta-strip">
+    <div class="cta-left">
+        <div class="cta-eyebrow">Ready to get started?</div>
+        <h2 class="cta-title">Book your repair <span>today</span></h2>
+        <p class="cta-sub">Walk in Mon–Sat · 9 AM – 8 PM · 47 Tech Avenue, Dhaka · Free diagnostics</p>
+    </div>
+    <div class="cta-actions">
+        <a href="@Url.Action("Create", "Customer")" class="btn-cta-white">
+            <i class="fas fa-plus"></i> Add New Customer
+        </a>
+        <a href="@Url.Action("Contact", "Home")" class="btn-cta-ghost">
+            <i class="fas fa-phone"></i> Contact Us
+        </a>
+    </div>
+</div>

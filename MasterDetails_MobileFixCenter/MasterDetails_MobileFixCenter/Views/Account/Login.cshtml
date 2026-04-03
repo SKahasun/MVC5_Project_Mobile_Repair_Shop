@@ -1,0 +1,519 @@
+﻿@using MasterDetails_MobileFixCenter.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<style>
+    .auth-page {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 16px;
+    }
+
+    .auth-wrapper {
+        width: 100%;
+        max-width: 980px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(15,32,87,0.18);
+    }
+
+    /* ── Left form panel ── */
+    .auth-form-panel {
+        background: #ffffff;
+        padding: 52px 44px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .auth-form-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #5a6a8a;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .auth-form-eyebrow::before {
+            content: '';
+            width: 16px;
+            height: 2px;
+            background: #dbeafe;
+            border-radius: 2px;
+        }
+
+    .auth-form-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        color: #0f2057;
+        letter-spacing: -0.02em;
+        margin: 0 0 6px;
+    }
+
+    .auth-form-sub {
+        font-size: 13px;
+        color: #5a6a8a;
+        margin-bottom: 32px;
+        line-height: 1.5;
+    }
+
+    /* Validation */
+    .validation-box {
+        background: #fff1f1;
+        border: 1.5px solid rgba(220,38,38,0.22);
+        border-left: 4px solid #dc2626;
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        color: #991b1b;
+    }
+
+        .validation-box ul {
+            margin: 0;
+            padding-left: 16px;
+        }
+
+    /* Fields */
+    .field-row {
+        margin-bottom: 18px;
+    }
+
+    .field-label {
+        display: block;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: #0f2057;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+    }
+
+    .field-input-wrap {
+        position: relative;
+    }
+
+        .field-input-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: #9ca3af;
+            pointer-events: none;
+        }
+
+    .field-input {
+        width: 100%;
+        background: #f8faff !important;
+        border: 1.5px solid rgba(26,50,132,0.14) !important;
+        border-radius: 10px !important;
+        color: #0d1a3a !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        padding: 11px 14px 11px 40px !important;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+    }
+
+        .field-input:focus {
+            border-color: #1a3284 !important;
+            box-shadow: 0 0 0 3px rgba(26,50,132,0.10) !important;
+            background: #fff !important;
+        }
+
+    .text-danger {
+        color: #dc2626 !important;
+        font-size: 11px;
+        margin-top: 4px;
+        display: block;
+    }
+
+    /* Remember me */
+    .remember-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f8faff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 10px;
+        padding: 11px 16px;
+        margin-bottom: 20px;
+    }
+
+        .remember-row input[type=checkbox] {
+            width: 17px;
+            height: 17px;
+            accent-color: #1a3284;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .remember-row label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0f2057;
+            margin: 0;
+            cursor: pointer;
+        }
+
+    /* Submit */
+    .btn-login {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        background: linear-gradient(135deg, #1a3284, #2348b0);
+        color: #fff !important;
+        font-family: 'Syne', sans-serif;
+        font-size: 14px;
+        font-weight: 800;
+        padding: 13px 24px;
+        border-radius: 11px;
+        border: none;
+        cursor: pointer;
+        transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+        box-shadow: 0 4px 16px rgba(26,50,132,0.3);
+        letter-spacing: 0.01em;
+    }
+
+        .btn-login:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(26,50,132,0.4);
+        }
+
+    /* Divider */
+    .auth-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 22px 0;
+        color: #9ca3af;
+        font-size: 12px;
+    }
+
+        .auth-divider::before, .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(26,50,132,0.08);
+        }
+
+    /* Register nudge */
+    .auth-register-link {
+        text-align: center;
+        font-size: 13px;
+        color: #5a6a8a;
+    }
+
+        .auth-register-link a {
+            color: #1a3284 !important;
+            font-weight: 700;
+            text-decoration: none !important;
+        }
+
+            .auth-register-link a:hover {
+                text-decoration: underline !important;
+            }
+
+    /* ── Right brand panel ── */
+    .auth-brand {
+        background: linear-gradient(160deg, #0f2057 0%, #1a3284 50%, #2348b0 100%);
+        padding: 52px 44px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .auth-brand::before {
+            content: '';
+            position: absolute;
+            left: -80px;
+            top: -80px;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .auth-brand::after {
+            content: '';
+            position: absolute;
+            right: -60px;
+            bottom: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            pointer-events: none;
+        }
+
+    .brand-top {
+        position: relative;
+        z-index: 1;
+    }
+
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 48px;
+        text-decoration: none !important;
+    }
+
+    .brand-logo-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(255,255,255,0.15);
+        border: 1.5px solid rgba(255,255,255,0.25);
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .brand-logo-name {
+        font-family: 'Syne', sans-serif;
+        font-size: 22px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.02em;
+        line-height: 1;
+    }
+
+        .brand-logo-name span {
+            color: #7eb5ff;
+        }
+
+    .brand-logo-tag {
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+        margin-top: 3px;
+    }
+
+    .brand-headline {
+        font-family: 'Syne', sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin-bottom: 16px;
+    }
+
+        .brand-headline span {
+            color: #7eb5ff;
+        }
+
+    .brand-sub {
+        font-size: 14px;
+        color: rgba(255,255,255,0.55);
+        line-height: 1.7;
+        margin-bottom: 36px;
+    }
+
+    /* Stats pills */
+    .brand-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .brand-stat {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 12px;
+        padding: 14px 16px;
+    }
+
+    .brand-stat-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(255,255,255,0.12);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #7eb5ff;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .brand-stat-value {
+        font-family: 'Syne', sans-serif;
+        font-size: 16px;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1;
+    }
+
+    .brand-stat-label {
+        font-family: 'Courier New', monospace;
+        font-size: 11px;
+        color: rgba(255,255,255,0.5);
+        margin-top: 2px;
+    }
+
+    .brand-bottom {
+        position: relative;
+        z-index: 1;
+    }
+
+    .brand-register-nudge {
+        font-size: 13px;
+        color: rgba(255,255,255,0.5);
+        margin-top: 32px;
+    }
+
+        .brand-register-nudge a {
+            color: #7eb5ff !important;
+            font-weight: 700;
+            text-decoration: none !important;
+        }
+
+            .brand-register-nudge a:hover {
+                text-decoration: underline !important;
+            }
+
+    @@media (max-width: 720px) {
+        .auth-wrapper {
+            grid-template-columns: 1fr;
+        }
+
+        .auth-brand {
+            display: none;
+        }
+
+        .auth-form-panel {
+            padding: 36px 24px;
+        }
+    }
+</style>
+
+<div class="auth-page">
+    <div class="auth-wrapper">
+
+        @* ── Left: Login Form ── *@
+        <div class="auth-form-panel">
+            <div class="auth-form-eyebrow">Welcome back</div>
+            <h1 class="auth-form-title">Log in to PhixPro</h1>
+            <p class="auth-form-sub">Enter your credentials to access the repair management dashboard.</p>
+
+            <section id="loginForm">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "validation-box" })
+
+                    <div class="field-row">
+                        @Html.LabelFor(m => m.Email, new { @class = "field-label" })
+                        <div class="field-input-wrap">
+                            <i class="fas fa-envelope"></i>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "field-input", placeholder = "you@example.com" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="field-row">
+                        @Html.LabelFor(m => m.Password, new { @class = "field-label" })
+                        <div class="field-input-wrap">
+                            <i class="fas fa-lock"></i>
+                            @Html.PasswordFor(m => m.Password, new { @class = "field-input", placeholder = "Your password" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="remember-row">
+                        @Html.CheckBoxFor(m => m.RememberMe, new { id = "RememberMe" })
+                        @Html.LabelFor(m => m.RememberMe, new { @for = "RememberMe" })
+                    </div>
+
+                    <button type="submit" class="btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Log In
+                    </button>
+
+                    <div class="auth-divider">or</div>
+
+                    <p class="auth-register-link">
+                        Don't have an account?
+                        @Html.ActionLink("Register here →", "Register")
+                    </p>
+                }
+            </section>
+
+            @* External logins partial — uncomment if configured:
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            *@
+        </div>
+
+        @* ── Right: Brand Panel ── *@
+        <div class="auth-brand">
+            <div class="brand-top">
+                <a href="@Url.Action("Index","Home")" class="brand-logo">
+                    <div class="brand-logo-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div>
+                        <div class="brand-logo-name">Phix<span>Pro</span></div>
+                        <div class="brand-logo-tag">Mobile Repair Experts</div>
+                    </div>
+                </a>
+                <h2 class="brand-headline">Everything you need<br /><span>in one dashboard.</span></h2>
+                <p class="brand-sub">Manage customers, track service jobs, upload device photos, and monitor your repair center — all from one place.</p>
+
+                <div class="brand-stats">
+                    <div class="brand-stat">
+                        <div class="brand-stat-icon"><i class="fas fa-users"></i></div>
+                        <div>
+                            <div class="brand-stat-value">Customer Records</div>
+                            <div class="brand-stat-label">Full history per customer</div>
+                        </div>
+                    </div>
+                    <div class="brand-stat">
+                        <div class="brand-stat-icon"><i class="fas fa-tools"></i></div>
+                        <div>
+                            <div class="brand-stat-value">Service Tracking</div>
+                            <div class="brand-stat-label">Per device, per visit</div>
+                        </div>
+                    </div>
+                    <div class="brand-stat">
+                        <div class="brand-stat-icon"><i class="fas fa-camera"></i></div>
+                        <div>
+                            <div class="brand-stat-value">Device Photos</div>
+                            <div class="brand-stat-label">Uploaded & stored securely</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

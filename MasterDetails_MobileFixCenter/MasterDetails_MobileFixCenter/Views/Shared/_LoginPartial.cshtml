@@ -1,0 +1,334 @@
+﻿@using Microsoft.AspNet.Identity
+
+<style>
+    /* ─── LOGIN PARTIAL STYLES ─── */
+    .auth-area {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* ── Authenticated state ── */
+    .user-menu {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .user-trigger {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 6px 14px 6px 6px;
+        background: #f0f4fb;
+        border: 1.5px solid rgba(26,50,132,0.14);
+        border-radius: 40px;
+        cursor: pointer;
+        text-decoration: none !important;
+        transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+        color: #0f2057 !important;
+    }
+
+        .user-trigger:hover {
+            background: #e4ecfa;
+            border-color: rgba(26,50,132,0.28);
+            box-shadow: 0 3px 12px rgba(26,50,132,0.1);
+            color: #0f2057 !important;
+            text-decoration: none !important;
+        }
+
+    .user-avatar {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, #1a3284, #2348b0);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        font-family: 'Syne', sans-serif;
+        flex-shrink: 0;
+        letter-spacing: -0.01em;
+    }
+
+    .user-info {
+        line-height: 1.15;
+    }
+
+    .user-name {
+        font-family: 'Syne', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: #0f2057;
+        display: block;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .user-role {
+        font-size: 10px;
+        color: #5a6a8a;
+        letter-spacing: 0.04em;
+    }
+
+    .user-chevron {
+        font-size: 10px;
+        color: #5a6a8a;
+        margin-left: 2px;
+        transition: transform 0.2s;
+    }
+
+    .user-menu:hover .user-chevron {
+        transform: rotate(180deg);
+    }
+
+    /* Dropdown */
+    .user-dropdown {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        min-width: 200px;
+        background: #ffffff;
+        border: 1.5px solid rgba(26,50,132,0.12);
+        border-radius: 14px;
+        box-shadow: 0 12px 40px rgba(15,32,87,0.16);
+        z-index: 999;
+        overflow: hidden;
+        animation: dropIn 0.18s ease;
+    }
+
+    @@keyframes dropIn {
+        from {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .user-menu:hover .user-dropdown,
+    .user-menu:focus-within .user-dropdown {
+        display: block;
+    }
+
+    .dropdown-header {
+        padding: 14px 16px 10px;
+        border-bottom: 1px solid rgba(26,50,132,0.08);
+        background: #f4f7fd;
+    }
+
+        .dropdown-header .dh-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f2057;
+            display: block;
+        }
+
+        .dropdown-header .dh-label {
+            font-size: 11px;
+            color: #5a6a8a;
+            margin-top: 1px;
+            display: block;
+        }
+
+    .dropdown-body {
+        padding: 6px;
+    }
+
+    .dropdown-item-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #0d1a3a;
+        text-decoration: none !important;
+        transition: background 0.15s, color 0.15s;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 500;
+        cursor: pointer;
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+    }
+
+        .dropdown-item-link i {
+            width: 18px;
+            text-align: center;
+            font-size: 13px;
+            color: #5a6a8a;
+            flex-shrink: 0;
+            transition: color 0.15s;
+        }
+
+        .dropdown-item-link:hover {
+            background: #f0f4fb;
+            color: #1a3284;
+            text-decoration: none !important;
+        }
+
+            .dropdown-item-link:hover i {
+                color: #2348b0;
+            }
+
+    .dropdown-divider {
+        height: 1px;
+        background: rgba(26,50,132,0.08);
+        margin: 4px 6px;
+    }
+
+    .dropdown-item-link.logout-btn {
+        color: #dc2626;
+    }
+
+        .dropdown-item-link.logout-btn i {
+            color: #dc2626;
+        }
+
+        .dropdown-item-link.logout-btn:hover {
+            background: #fff1f1;
+            color: #b91c1c;
+        }
+
+            .dropdown-item-link.logout-btn:hover i {
+                color: #b91c1c;
+            }
+
+    /* ── Guest state ── */
+    .auth-guest {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-login {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 16px;
+        background: transparent;
+        border: 1.5px solid rgba(26,50,132,0.2);
+        border-radius: 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1a3284 !important;
+        text-decoration: none !important;
+        transition: background 0.2s, border-color 0.2s;
+        white-space: nowrap;
+    }
+
+        .btn-login:hover {
+            background: #f0f4fb;
+            border-color: rgba(26,50,132,0.35);
+            color: #0f2057 !important;
+            text-decoration: none !important;
+        }
+
+    .btn-register {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #1a3284, #2348b0);
+        border: none;
+        border-radius: 8px;
+        font-family: 'Syne', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+        box-shadow: 0 3px 10px rgba(26,50,132,0.28);
+        white-space: nowrap;
+    }
+
+        .btn-register:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 16px rgba(26,50,132,0.38);
+            color: #ffffff !important;
+            text-decoration: none !important;
+        }
+
+        .btn-register i, .btn-login i {
+            font-size: 12px;
+        }
+
+    /* Divider between login/register */
+    .auth-sep {
+        width: 1px;
+        height: 20px;
+        background: rgba(26,50,132,0.15);
+        flex-shrink: 0;
+    }
+</style>
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="auth-area">
+            <div class="user-menu" tabindex="0">
+                <div class="user-trigger">
+                    <div class="user-avatar">
+                        @User.Identity.GetUserName().Substring(0, 1).ToUpper()
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">@User.Identity.GetUserName()</span>
+                        <span class="user-role">My Account</span>
+                    </div>
+                    <i class="fas fa-chevron-down user-chevron"></i>
+                </div>
+
+                <div class="user-dropdown">
+                    <div class="dropdown-header">
+                        <span class="dh-name">@User.Identity.GetUserName()</span>
+                        <span class="dh-label">Signed in</span>
+                    </div>
+                    <div class="dropdown-body">
+                        <a href="@Url.Action("Index","Manage")" class="dropdown-item-link">
+                            <i class="fas fa-user-cog"></i>
+                            Manage Account
+                        </a>
+                        <a href="@Url.Action("Index","Manage")" class="dropdown-item-link">
+                            <i class="fas fa-shield-alt"></i>
+                            Security Settings
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button type="submit" form="logoutForm" class="dropdown-item-link logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Log off
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="auth-area auth-guest">
+        <a href="@Url.Action("Login","Account")" class="btn-login" id="loginLink">
+            <i class="fas fa-sign-in-alt"></i>
+            Log in
+        </a>
+        <span class="auth-sep"></span>
+        <a href="@Url.Action("Register","Account")" class="btn-register" id="registerLink">
+            <i class="fas fa-user-plus"></i>
+            Register
+        </a>
+    </div>
+}

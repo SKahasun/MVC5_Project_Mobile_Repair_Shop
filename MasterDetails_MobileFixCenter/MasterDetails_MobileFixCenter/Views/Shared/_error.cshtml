@@ -1,0 +1,111 @@
+﻿
+<div class="phix-alert phix-alert-danger" role="alert">
+    <div class="phix-alert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+    </div>
+    <div class="phix-alert-body">
+        <div class="phix-alert-title">Something went wrong</div>
+        <div class="phix-alert-msg">Please check your input data and try again. If the problem persists, contact support.</div>
+    </div>
+    <button class="phix-alert-close" aria-label="Close" onclick="this.closest('.phix-alert').style.display='none'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+    </button>
+</div>
+
+<style>
+    .phix-alert {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px 18px;
+        border-radius: 12px;
+        border-left: 4px solid #dc2626;
+        background: #fff1f1;
+        margin-bottom: 20px;
+        position: relative;
+        animation: phixSlideIn 0.25s ease;
+    }
+
+    @@keyframes phixSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .phix-alert-icon {
+        width: 38px;
+        height: 38px;
+        background: #fee2e2;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+        .phix-alert-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+    .phix-alert-body {
+        flex: 1;
+        padding-top: 2px;
+    }
+
+    .phix-alert-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: #991b1b;
+        margin-bottom: 4px;
+        letter-spacing: -0.01em;
+    }
+
+    .phix-alert-msg {
+        font-size: 13px;
+        color: #7f1d1d;
+        line-height: 1.55;
+        opacity: 0.85;
+    }
+
+    .phix-alert-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #b91c1c;
+        opacity: 0.5;
+        transition: opacity 0.15s, background 0.15s;
+        flex-shrink: 0;
+        padding: 0;
+    }
+
+        .phix-alert-close svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .phix-alert-close:hover {
+            opacity: 1;
+            background: #fee2e2;
+        }
+</style>

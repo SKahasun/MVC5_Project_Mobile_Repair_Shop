@@ -1,0 +1,511 @@
+﻿@model MasterDetails_MobileFixCenter.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<style>
+    .auth-page {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 16px;
+    }
+
+    .auth-wrapper {
+        width: 100%;
+        max-width: 980px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(15,32,87,0.18);
+    }
+
+    /* ── Left brand panel ── */
+    .auth-brand {
+        background: linear-gradient(160deg, #0f2057 0%, #1a3284 50%, #2348b0 100%);
+        padding: 52px 44px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .auth-brand::before {
+            content: '';
+            position: absolute;
+            right: -80px;
+            top: -80px;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .auth-brand::after {
+            content: '';
+            position: absolute;
+            left: -60px;
+            bottom: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            pointer-events: none;
+        }
+
+    .brand-top {
+        position: relative;
+        z-index: 1;
+    }
+
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 48px;
+        text-decoration: none !important;
+    }
+
+    .brand-logo-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(255,255,255,0.15);
+        border: 1.5px solid rgba(255,255,255,0.25);
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .brand-logo-text {
+        line-height: 1;
+    }
+
+    .brand-logo-name {
+        font-family: 'Syne', sans-serif;
+        font-size: 22px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.02em;
+    }
+
+        .brand-logo-name span {
+            color: #7eb5ff;
+        }
+
+    .brand-logo-tag {
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+        margin-top: 3px;
+    }
+
+    .brand-headline {
+        font-family: 'Syne', sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin-bottom: 16px;
+    }
+
+        .brand-headline span {
+            color: #7eb5ff;
+        }
+
+    .brand-sub {
+        font-size: 14px;
+        color: rgba(255,255,255,0.55);
+        line-height: 1.7;
+        margin-bottom: 36px;
+    }
+
+    .brand-perks {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .brand-perks li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 12px;
+        }
+
+            .brand-perks li i {
+                width: 24px;
+                height: 24px;
+                background: rgba(255,255,255,0.12);
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                color: #7eb5ff;
+                flex-shrink: 0;
+            }
+
+    .brand-bottom {
+        position: relative;
+        z-index: 1;
+    }
+
+    .brand-login-nudge {
+        font-size: 13px;
+        color: rgba(255,255,255,0.5);
+    }
+
+        .brand-login-nudge a {
+            color: #7eb5ff !important;
+            font-weight: 700;
+            text-decoration: none !important;
+        }
+
+            .brand-login-nudge a:hover {
+                text-decoration: underline !important;
+            }
+
+    /* ── Right form panel ── */
+    .auth-form-panel {
+        background: #ffffff;
+        padding: 52px 44px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .auth-form-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #5a6a8a;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .auth-form-eyebrow::before {
+            content: '';
+            width: 16px;
+            height: 2px;
+            background: #dbeafe;
+            border-radius: 2px;
+        }
+
+    .auth-form-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 24px;
+        font-weight: 800;
+        color: #0f2057;
+        letter-spacing: -0.02em;
+        margin: 0 0 6px;
+    }
+
+    .auth-form-sub {
+        font-size: 13px;
+        color: #5a6a8a;
+        margin-bottom: 32px;
+        line-height: 1.5;
+    }
+
+    /* Validation summary */
+    .validation-box {
+        background: #fff1f1;
+        border: 1.5px solid rgba(220,38,38,0.22);
+        border-left: 4px solid #dc2626;
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        color: #991b1b;
+    }
+
+        .validation-box ul {
+            margin: 0;
+            padding-left: 16px;
+        }
+
+    /* Fields */
+    .field-row {
+        margin-bottom: 18px;
+    }
+
+    .field-label {
+        display: block;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: #0f2057;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+    }
+
+    .field-input-wrap {
+        position: relative;
+    }
+
+        .field-input-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: #9ca3af;
+            pointer-events: none;
+        }
+
+    .field-input {
+        width: 100%;
+        background: #f8faff !important;
+        border: 1.5px solid rgba(26,50,132,0.14) !important;
+        border-radius: 10px !important;
+        color: #0d1a3a !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        padding: 11px 14px 11px 40px !important;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+    }
+
+        .field-input:focus {
+            border-color: #1a3284 !important;
+            box-shadow: 0 0 0 3px rgba(26,50,132,0.10) !important;
+            background: #fff !important;
+        }
+
+    .text-danger {
+        color: #dc2626 !important;
+        font-size: 11px;
+        margin-top: 4px;
+        display: block;
+    }
+
+    /* Password strength bar */
+    .strength-bar {
+        display: flex;
+        gap: 4px;
+        margin-top: 8px;
+    }
+
+    .strength-seg {
+        flex: 1;
+        height: 3px;
+        border-radius: 2px;
+        background: rgba(26,50,132,0.1);
+        transition: background 0.3s;
+    }
+
+    .strength-label {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 4px;
+    }
+
+    /* Submit */
+    .btn-register {
+        width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 9px;
+background: linear-gradient(135deg, #1a3284, #2348b0);
+color: #fff !important;
+font-family: 'Syne', sans-serif;
+font-size: 14px;
+font-weight: 800;
+padding: 13px 24px;
+border-radius: 11px;
+border: none;
+cursor: pointer;
+transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+box-shadow: 0 4px 16px rgba(26,50,132,0.3);
+letter-spacing: 0.01em;
+    }
+
+        .btn-register:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(26,50,132,0.4);
+        }
+
+    /* Divider */
+    .auth-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 20px 0;
+        color: #9ca3af;
+        font-size: 12px;
+    }
+
+        .auth-divider::before, .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(26,50,132,0.08);
+        }
+
+    /* Login link */
+    .auth-login-link {
+        text-align: center;
+        font-size: 13px;
+        color: #5a6a8a;
+    }
+
+        .auth-login-link a {
+            color: #1a3284 !important;
+            font-weight: 700;
+            text-decoration: none !important;
+        }
+
+            .auth-login-link a:hover {
+                text-decoration: underline !important;
+            }
+
+    @@media (max-width: 720px) {
+        .auth-wrapper {
+            grid-template-columns: 1fr;
+        }
+
+        .auth-brand {
+            display: none;
+        }
+
+        .auth-form-panel {
+            padding: 36px 24px;
+        }
+    }
+</style>
+
+<div class="auth-page">
+    <div class="auth-wrapper">
+
+        @* ── Left brand panel ── *@
+        <div class="auth-brand">
+            <div class="brand-top">
+                <a href="@Url.Action("Index","Home")" class="brand-logo">
+                    <div class="brand-logo-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="brand-logo-text">
+                        <div class="brand-logo-name">Phix<span>Pro</span></div>
+                        <div class="brand-logo-tag">Mobile Repair Experts</div>
+                    </div>
+                </a>
+                <h2 class="brand-headline">Your repairs,<br /><span>managed perfectly.</span></h2>
+                <p class="brand-sub">Join PhixPro to track customers, manage repair services, and grow your business — all in one place.</p>
+                <ul class="brand-perks">
+                    <li><i class="fas fa-users"></i> Full customer management</li>
+                    <li><i class="fas fa-tools"></i> Service tracking per device</li>
+                    <li><i class="fas fa-camera"></i> Device photo uploads</li>
+                    <li><i class="fas fa-shield-alt"></i> Secure & reliable platform</li>
+                </ul>
+            </div>
+            <div class="brand-bottom">
+                <p class="brand-login-nudge">
+                    Already have an account?
+                    @Html.ActionLink("Log in here →", "Login", "Account")
+                </p>
+            </div>
+        </div>
+
+        @* ── Right form panel ── *@
+        <div class="auth-form-panel">
+            <div class="auth-form-eyebrow">Get started</div>
+            <h1 class="auth-form-title">Create your account</h1>
+            <p class="auth-form-sub">Fill in the details below to register and access the PhixPro dashboard.</p>
+
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "validation-box" })
+
+                <div class="field-row">
+                    @Html.LabelFor(m => m.Email, new { @class = "field-label" })
+                    <div class="field-input-wrap">
+                        <i class="fas fa-envelope"></i>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "field-input", placeholder = "you@example.com" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="field-row">
+                    @Html.LabelFor(m => m.Password, new { @class = "field-label" })
+                    <div class="field-input-wrap">
+                        <i class="fas fa-lock"></i>
+                        @Html.PasswordFor(m => m.Password, new { @class = "field-input", placeholder = "Min. 6 characters", id = "pwdInput" })
+                    </div>
+                    <div class="strength-bar" id="strengthBar">
+                        <div class="strength-seg" id="s1"></div>
+                        <div class="strength-seg" id="s2"></div>
+                        <div class="strength-seg" id="s3"></div>
+                        <div class="strength-seg" id="s4"></div>
+                    </div>
+                    <div class="strength-label" id="strengthLabel">Enter a password</div>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="field-row">
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "field-label" })
+                    <div class="field-input-wrap">
+                        <i class="fas fa-lock"></i>
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "field-input", placeholder = "Re-enter password" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+
+                <button type="submit" class="btn-register">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+
+                <div class="auth-divider">or</div>
+                <p class="auth-login-link">
+                    Already registered?
+                    @Html.ActionLink("Sign in to your account", "Login", "Account")
+                </p>
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        // Password strength indicator
+        document.getElementById('pwdInput').addEventListener('input', function () {
+            var val = this.value;
+            var score = 0;
+            if (val.length >= 6) score++;
+            if (val.length >= 10) score++;
+            if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            var colors = ['#ef4444', '#f97316', '#eab308', '#16a34a'];
+            var labels = ['Weak', 'Fair', 'Good', 'Strong'];
+            var segs = ['s1', 's2', 's3', 's4'];
+
+            segs.forEach(function (id, i) {
+                document.getElementById(id).style.background =
+                    i < score ? colors[score - 1] : 'rgba(26,50,132,0.1)';
+            });
+            document.getElementById('strengthLabel').textContent =
+                val.length === 0 ? 'Enter a password' : labels[score - 1] || 'Weak';
+            document.getElementById('strengthLabel').style.color =
+                val.length === 0 ? '#9ca3af' : colors[score - 1] || '#ef4444';
+        });
+    </script>
+}

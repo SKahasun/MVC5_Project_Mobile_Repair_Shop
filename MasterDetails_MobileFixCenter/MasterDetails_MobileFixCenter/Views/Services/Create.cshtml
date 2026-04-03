@@ -1,0 +1,319 @@
+﻿@model MasterDetails_MobileFixCenter.Models.Service
+@{
+    ViewBag.Title = "Add New Service";
+}
+
+@*── Shared form card styles (used by Create & Edit) ──*@
+<style>
+    .form-page-hero {
+        background: linear-gradient(135deg, #0f2057 0%, #1a3284 55%, #2348b0 100%);
+        border-radius: 16px;
+        padding: 28px 36px;
+        margin-bottom: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .form-page-hero::before {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+    .fph-left {
+        position: relative;
+        z-index: 1;
+    }
+
+    .fph-eyebrow {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .fph-eyebrow::before {
+            content: '';
+            width: 18px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+    .fph-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 24px;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: -0.02em;
+        margin: 0;
+    }
+
+        .fph-title span {
+            color: #7eb5ff;
+        }
+
+    .fph-right {
+        position: relative;
+        z-index: 1;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.22);
+        color: #ffffff !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 9px 18px;
+        border-radius: 9px;
+        text-decoration: none !important;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
+
+        .btn-back:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+
+        .btn-back i {
+            font-size: 11px;
+        }
+
+    .form-card {
+        background: #ffffff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        padding: 18px 28px;
+        border-bottom: 1.5px solid rgba(26,50,132,0.08);
+        background: #f8faff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-card-header-icon {
+        width: 36px;
+        height: 36px;
+        background: #eff4ff;
+        border: 1px solid rgba(26,50,132,0.14);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1a3284;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
+
+    .form-card-header-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f2057;
+        margin: 0;
+    }
+
+    .form-card-body {
+        padding: 32px 28px;
+    }
+
+    .field-group {
+        margin-bottom: 24px;
+    }
+
+    .field-label {
+        display: block;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: #0f2057;
+        margin-bottom: 8px;
+    }
+
+        .field-label .req {
+            color: #dc2626;
+            margin-left: 2px;
+        }
+
+    .field-input {
+        width: 100%;
+        background: #f8faff !important;
+        border: 1.5px solid rgba(26,50,132,0.14) !important;
+        border-radius: 10px !important;
+        color: #0d1a3a !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        padding: 11px 16px !important;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+    }
+
+        .field-input:focus {
+            border-color: #1a3284 !important;
+            box-shadow: 0 0 0 3px rgba(26,50,132,0.12) !important;
+            background: #ffffff !important;
+        }
+
+    .field-hint {
+        font-size: 12px;
+        color: #5a6a8a;
+        margin-top: 6px;
+    }
+
+    .text-danger {
+        color: #dc2626 !important;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .form-card-footer {
+        padding: 20px 28px;
+        border-top: 1.5px solid rgba(26,50,132,0.08);
+        background: #f8faff;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-submit {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #1a3284, #2348b0);
+        color: #ffffff !important;
+        font-family: 'Syne', sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        padding: 11px 26px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none !important;
+        transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+        box-shadow: 0 3px 12px rgba(26,50,132,0.28);
+    }
+
+        .btn-submit:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(26,50,132,0.38);
+        }
+
+    .btn-cancel-sm {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: #f4f7fd;
+        border: 1.5px solid rgba(26,50,132,0.12);
+        color: #5a6a8a !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 11px 20px;
+        border-radius: 10px;
+        text-decoration: none !important;
+        transition: background 0.15s, color 0.15s;
+    }
+
+        .btn-cancel-sm:hover {
+            background: #e8edf8;
+            color: #0f2057 !important;
+            text-decoration: none !important;
+        }
+
+    .validation-box {
+        background: #fff1f1;
+        border: 1.5px solid rgba(220,38,38,0.22);
+        border-left: 4px solid #dc2626;
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-bottom: 24px;
+        font-size: 13px;
+        color: #991b1b;
+    }
+
+        .validation-box ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+</style>
+
+@* ── Hero ── *@
+<div class="form-page-hero">
+    <div class="fph-left">
+        <div class="fph-eyebrow">Services</div>
+        <h1 class="fph-title">Add New <span>Service</span></h1>
+    </div>
+    <div class="fph-right">
+        @Html.ActionLink("← Back to List", "Index", null, new { @class = "btn-back" })
+    </div>
+</div>
+
+@* ── Form Card ── *@
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-card">
+        <div class="form-card-header">
+            <div class="form-card-header-icon"><i class="fas fa-plus"></i></div>
+            <h2 class="form-card-header-title">Service Details</h2>
+        </div>
+
+        <div class="form-card-body">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="validation-box">
+                    @Html.ValidationSummary(true, "Please fix the following errors:")
+                </div>
+            }
+
+            <div class="field-group">
+                @Html.LabelFor(m => m.ServiceName, new { @class = "field-label" })
+                @Html.EditorFor(m => m.ServiceName, new { htmlAttributes = new { @class = "field-input", placeholder = "e.g. Screen Replacement" } })
+                @Html.ValidationMessageFor(m => m.ServiceName, "", new { @class = "text-danger" })
+                <span class="field-hint">Enter the repair service name as it will appear to customers.</span>
+            </div>
+        </div>
+
+        <div class="form-card-footer">
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn-cancel-sm" })
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-plus"></i> Create Service
+            </button>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,652 @@
+﻿@model MasterDetails_MobileFixCenter.Models.ViewModels.CustomerVM
+@{
+    ViewBag.Title = "Delete Customer";
+}
+
+<style>
+    /* ── Hero (red — destructive) ── */
+    .page-hero {
+        background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 55%, #dc2626 100%);
+        border-radius: 16px;
+        padding: 28px 36px;
+        margin-bottom: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+    .ph-left {
+        position: relative;
+        z-index: 1;
+    }
+
+    .ph-eyebrow {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.5);
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .ph-eyebrow::before {
+            content: '';
+            width: 18px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+    .ph-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 26px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.02em;
+        margin: 0 0 4px;
+    }
+
+        .ph-title span {
+            color: #fca5a5;
+        }
+
+    .ph-sub {
+        font-size: 13px;
+        color: rgba(255,255,255,0.5);
+        margin: 0;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.22);
+        color: #fff !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 9px 18px;
+        border-radius: 9px;
+        text-decoration: none !important;
+        transition: background 0.2s;
+        white-space: nowrap;
+        position: relative;
+        z-index: 1;
+    }
+
+        .btn-back:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff !important;
+        }
+
+    /* ── Warning banner ── */
+    .warn-banner {
+        background: #fff1f1;
+        border: 1.5px solid rgba(220,38,38,0.22);
+        border-left: 4px solid #dc2626;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .warn-banner-icon {
+        width: 36px;
+        height: 36px;
+        background: #fee2e2;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #dc2626;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
+
+    .warn-banner-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: #991b1b;
+        margin-bottom: 3px;
+    }
+
+    .warn-banner-msg {
+        font-size: 13px;
+        color: #7f1d1d;
+        line-height: 1.5;
+    }
+
+    /* ── Two-col grid ── */
+    .delete-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: start;
+    }
+
+    /* ── Detail Card ── */
+    .form-card {
+        background: #fff;
+        border: 1.5px solid rgba(220,38,38,0.16);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        padding: 16px 24px;
+        border-bottom: 1.5px solid rgba(220,38,38,0.10);
+        background: #fff8f8;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .fch-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+        .fch-icon.red {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid rgba(220,38,38,0.22);
+        }
+
+        .fch-icon.gray {
+            background: #f4f7fd;
+            color: #5a6a8a;
+            border: 1px solid rgba(26,50,132,0.12);
+        }
+
+    .fch-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: #0f2057;
+        margin: 0;
+    }
+
+    .fch-badge {
+        margin-left: auto;
+        background: #fff1f1;
+        color: #dc2626;
+        font-family: 'Courier New', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        border: 1px solid rgba(220,38,38,0.22);
+    }
+
+    .fch-badge-gray {
+        margin-left: auto;
+        background: #eff4ff;
+        color: #1a3284;
+        font-family: 'Courier New', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        border: 1px solid rgba(26,50,132,0.14);
+    }
+
+    .form-body {
+        padding: 24px;
+    }
+
+    /* ── Read-only detail rows ── */
+    .detail-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(220,38,38,0.07);
+    }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+    .detail-row-icon {
+        width: 32px;
+        height: 32px;
+        background: #fff1f1;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #dc2626;
+        font-size: 12px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .detail-row-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 3px;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .detail-row-value {
+        font-family: 'Syne', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f2057;
+        word-break: break-word;
+    }
+
+        .detail-row-value.problem {
+            color: #d97706;
+        }
+
+        .detail-row-value.phone {
+            color: #1a3284;
+        }
+
+    /* Device photo */
+    .device-photo-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(220,38,38,0.07);
+    }
+
+    .device-photo-del {
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
+        object-fit: cover;
+        border: 2px solid rgba(220,38,38,0.18);
+        display: block;
+        background: #fff1f1;
+        flex-shrink: 0;
+    }
+
+    .device-photo-placeholder {
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
+        background: #fff1f1;
+        border: 2px solid rgba(220,38,38,0.14);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #dc2626;
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+
+    /* Regular badge */
+    .regular-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #eff4ff;
+        color: #1a3284;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(26,50,132,0.14);
+        font-family: 'Courier New', monospace;
+    }
+
+    .new-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #fffbeb;
+        color: #d97706;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(217,119,6,0.2);
+        font-family: 'Courier New', monospace;
+    }
+
+    /* Form footer */
+    .form-footer {
+        padding: 18px 24px;
+        border-top: 1.5px solid rgba(220,38,38,0.10);
+        background: #fff8f8;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .btn-delete-confirm {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #991b1b, #dc2626);
+        color: #fff !important;
+        font-family: 'Syne', sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        padding: 11px 26px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+        box-shadow: 0 3px 12px rgba(220,38,38,0.30);
+    }
+
+        .btn-delete-confirm:hover {
+            filter: brightness(1.08);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(220,38,38,0.40);
+        }
+
+    .btn-cancel {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: #f4f7fd;
+        border: 1.5px solid rgba(26,50,132,0.12);
+        color: #5a6a8a !important;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 11px 20px;
+        border-radius: 10px;
+        text-decoration: none !important;
+        transition: background 0.15s;
+    }
+
+        .btn-cancel:hover {
+            background: #e8edf8;
+            color: #0f2057 !important;
+        }
+
+    /* ── Service panel (read-only) ── */
+    .service-card {
+        background: #fff;
+        border: 1.5px solid rgba(26,50,132,0.10);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .service-container-wrap {
+        padding: 16px 20px;
+    }
+
+    .services-section-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #5a6a8a;
+        margin: 0 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .services-section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(26,50,132,0.08);
+        }
+
+    .service-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #fff1f1;
+        border: 1px solid rgba(220,38,38,0.16);
+        color: #dc2626;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 20px;
+        margin: 4px 4px 4px 0;
+        font-family: 'Courier New', monospace;
+    }
+
+        .service-pill i {
+            font-size: 10px;
+        }
+
+    .no-services {
+        text-align: center;
+        padding: 28px 16px;
+        font-size: 13px;
+        color: #9ca3af;
+    }
+
+        .no-services i {
+            font-size: 24px;
+            color: #fecaca;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+    #msg {
+        margin-top: 4px;
+    }
+
+    @@media (max-width: 860px) {
+        .delete-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+@* ── Hero ── *@
+<div class="page-hero">
+    <div class="ph-left">
+        <div class="ph-eyebrow">Customer Management</div>
+        <h1 class="ph-title">Delete <span>Customer</span></h1>
+        <p class="ph-sub">Review the record below before permanently removing it</p>
+    </div>
+    @Html.ActionLink("← Back to List", "Index", null, new { @class = "btn-back" })
+</div>
+
+@* ── Warning Banner ── *@
+<div class="warn-banner">
+    <div class="warn-banner-icon"><i class="fas fa-exclamation-triangle"></i></div>
+    <div>
+        <div class="warn-banner-title">This action cannot be undone</div>
+        <div class="warn-banner-msg">You are about to permanently delete this customer and all their associated service entries. Please review the record carefully before confirming.</div>
+    </div>
+</div>
+
+@using (Ajax.BeginForm(new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "msg",
+    OnComplete = "clearAll"
+}))
+{
+    @Html.HiddenFor(x => x.CustomerId)
+    @Html.HiddenFor(x => x.DevicePicture)
+
+    <div class="delete-grid">
+
+        @* ── Left: Customer Details (read-only) ── *@
+        <div class="form-card">
+            <div class="form-card-header">
+                <div class="fch-icon red"><i class="fas fa-user-times"></i></div>
+                <h2 class="fch-title">Customer Record</h2>
+                <span class="fch-badge">ID #@Model.CustomerId</span>
+            </div>
+
+            <div class="form-body">
+
+                @* Device photo *@
+                <div class="device-photo-row">
+                    @if (!string.IsNullOrEmpty(Model.DevicePicture))
+                    {
+                        <img src="@Model.DevicePicture" class="device-photo-del" alt="Device photo" />
+                    }
+                    else
+                    {
+                        <div class="device-photo-placeholder"><i class="fas fa-mobile-alt"></i></div>
+                    }
+                    <div>
+                        <div class="detail-row-label">Device Photo</div>
+                        <div class="detail-row-value" style="font-size:13px;">
+                            @if (string.IsNullOrEmpty(Model.DevicePicture))
+                            {
+                                <span style="color:#9ca3af;font-family:'DM Sans',sans-serif;font-weight:500;">No photo on record</span>
+                            }
+                            else
+                            {
+                                <span style="color:#16a34a;font-family:'DM Sans',sans-serif;font-weight:600;font-size:12px;"><i class="fas fa-check-circle" style="margin-right:4px;"></i>Photo attached</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-row-icon"><i class="fas fa-user"></i></div>
+                    <div>
+                        <div class="detail-row-label">Customer Name</div>
+                        <div class="detail-row-value">@Model.CustomerName</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-row-icon"><i class="fas fa-phone"></i></div>
+                    <div>
+                        <div class="detail-row-label">Phone</div>
+                        <div class="detail-row-value phone">@Model.Phone</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-row-icon"><i class="fas fa-calendar"></i></div>
+                    <div>
+                        <div class="detail-row-label">Entry Date</div>
+                        <div class="detail-row-value">@Model.EntryDate.ToString("dd MMM yyyy")</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-row-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <div class="detail-row-label">Address</div>
+                        <div class="detail-row-value">@Model.Address</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-row-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div>
+                        <div class="detail-row-label">Device</div>
+                        <div class="detail-row-value">@Model.DeviceName</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-row-icon"><i class="fas fa-exclamation-circle"></i></div>
+                    <div>
+                        <div class="detail-row-label">Problem</div>
+                        <div class="detail-row-value problem">@Model.Problem</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-row-icon"><i class="fas fa-star"></i></div>
+                    <div>
+                        <div class="detail-row-label">Customer Type</div>
+                        <div class="detail-row-value" style="margin-top:2px;">
+                            @if (Model.IsRegular)
+                            {
+                                <span class="regular-pill">⭐ Regular</span>
+                            }
+                            else
+                            {
+                                <span class="new-pill">New</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-footer">
+                @Html.ActionLink("No, Keep It", "Index", null, new { @class = "btn-cancel" })
+                <button type="submit" class="btn-delete-confirm">
+                    <i class="fas fa-trash-alt"></i> Yes, Delete
+                </button>
+            </div>
+        </div>
+
+        @* ── Right: Assigned Services (read-only) ── *@
+        <div class="service-card">
+            <div class="form-card-header">
+                <div class="fch-icon gray"><i class="fas fa-tools"></i></div>
+                <h2 class="fch-title">Assigned Services</h2>
+                <span class="fch-badge-gray">@Model.ServiceList.Count() entries</span>
+            </div>
+            <div class="service-container-wrap">
+                <div class="services-section-label">
+                    <i class="fas fa-info-circle" style="color:#dc2626;font-size:11px;"></i>
+                    Will also be deleted
+                </div>
+                @if (Model.ServiceList.Any())
+                {
+                    <div>
+                        @foreach (var item in Model.ServiceList)
+                        {
+                            <span class="service-pill">
+                                <i class="fas fa-wrench"></i>
+                                @Html.Action("AddNewService", "Customer", new { id = item })
+                            </span>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="no-services">
+                        <i class="fas fa-inbox"></i>
+                        No service entries attached
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <div id="msg" class="mt-3"></div>
+}
